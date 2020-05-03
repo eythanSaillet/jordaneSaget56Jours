@@ -1,6 +1,7 @@
 import './style/main.scss'
 
 import * as p5 from 'p5'
+import { gsap, Power2 } from 'gsap'
 
 const P5 = new p5(s)
 
@@ -115,3 +116,14 @@ class Line {
 		this.leftOldPos = this.leftPos
 	}
 }
+
+// Page transition animation
+let pageTransitionButton = document.querySelector('.interface .button')
+let pageTransitionText = document.querySelector('.interface p')
+
+pageTransitionButton.addEventListener('click', () => {
+	// line = null
+	// Animate width and height only to keep the same border weight
+	gsap.to(pageTransitionButton, 1.7, { width: 2000, height: 2000, ease: Power2.easeInOut })
+	gsap.to(pageTransitionText, 1, { opacity: 0, ease: Power2.easeInOut })
+})

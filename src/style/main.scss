@@ -1,12 +1,63 @@
 body {
-    background-color: pink;
-    margin: 0;
+	background-color: pink;
+	margin: 0;
 }
 
 #canvasContainer {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.interface {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	// display: flex;
+	// justify-content: center;
+	// align-items: center;
+	.button {
+		width: 120px;
+		height: 120px;
+		// display: flex;
+		// justify-content: center;
+		// align-items: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgb(10, 10, 10);
+		border: solid 2px white;
+		border-radius: 50%;
+		box-shadow: 0px 0px 30px 3px rgb(10, 10, 10);
+		cursor: pointer;
+		// transition: transform 200ms ease-in-out;
+		// &:hover {
+		// 	transform: translate(-50%, -50%) scale(1.05);
+		// }
+	}
+	p {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -75%);
+		color: white;
+		font-size: 11px;
+		line-height: 22px;
+		letter-spacing: 2px;
+		text-align: center;
+		font-family: 'Test';
+		pointer-events: none;
+		user-select: none;
+		transition: transform 150ms ease-in-out;
+	}
+}
+
+@font-face {
+	font-family: 'Test';
+	src: url('../assets/fonts/helveticaneue/HelveticaNeue Light.ttf');
 }
