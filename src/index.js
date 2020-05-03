@@ -15,7 +15,7 @@ function s(sk) {
 		sk.angleMode(sk.DEGREES)
 
 		// Create line
-		lines.push(new Line(P5.width / 2, -100))
+		lines.push(new Line(P5.width / 2 - 150, -100))
 	}
 
 	sk.draw = () => {
@@ -121,20 +121,36 @@ class Line {
 	}
 }
 
-// Page transition animation
-let pageTransitionButton = document.querySelector('.interface .button')
-let pageTransitionText = document.querySelector('.interface p')
+let pageTransition = {
+	button: document.querySelector('.interface .button'),
+	buttonText: document.querySelector('.interface p'),
+	isLaunched: false,
 
-pageTransitionButton.addEventListener('click', () => {
-	// Animate width and height only to keep the same border weight
-	gsap.to(pageTransitionButton, 1.7, {
-		width: 2000,
-		height: 2000,
-		ease: Power2.easeInOut,
-		// then stop the line
-		onComplete: () => {
-			lines = []
-		},
-	})
-	gsap.to(pageTransitionText, 1, { opacity: 0, ease: Power2.easeInOut })
-})
+	setupEvents() {
+		// Page transition animation
+		this.button.addEventListener('click', () => {
+			this.isLaunched = true
+			// Animate width and height only to keep the same border weight
+			gsap.to(this.button, 1.7, {
+				width: 2000,
+				height: 2000,
+				ease: Power2.easeInOut,
+				// then stop the line
+				onComplete: () => {
+					lines = []
+				},
+			})
+			// Make vanish the text
+			gsap.to(this.buttonText, 1, { opacity: 0, ease: Power2.easeInOut })
+		})
+
+		// Button hover animation
+		this.button.addEventListener('mouseenter', () => {
+			this.isLaunched === false ? gsap.to(this.button, 0.3, { width: 130, height: 130 }) : null
+		})
+		this.button.addEventListener('mouseleave', () => {
+			this.isLaunched === false ? gsap.to(this.button, 0.3, { width: 120, height: 120 }) : null
+		})
+	},
+}
+pageTransition.setupEvents()
