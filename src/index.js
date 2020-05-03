@@ -6,7 +6,7 @@ import { gsap, Power2 } from 'gsap'
 const P5 = new p5(s)
 
 // P5 Init
-let line
+let lines = []
 function s(sk) {
 	sk.setup = () => {
 		sk.createCanvas(window.innerWidth, window.innerHeight).parent('canvasContainer')
@@ -15,13 +15,15 @@ function s(sk) {
 		sk.angleMode(sk.DEGREES)
 
 		// Create line
-		line = new Line(P5.width / 2, -100)
+		lines.push(new Line(P5.width / 2, -100))
 	}
 
 	sk.draw = () => {
-		// Update line
-		line.updatePos()
-		line.draw()
+		// Updating lines
+		for (const _line of lines) {
+			_line.updatePos()
+			_line.draw()
+		}
 	}
 }
 
@@ -39,7 +41,7 @@ class Line {
 		this.vel = P5.createVector(0, 0)
 		this.acc = P5.createVector(0, 0)
 
-		this.maxSpeed = 2
+		this.maxSpeed = 4
 
 		// Drawing values
 		this.oldPos = P5.createVector(posX, posY)
@@ -53,15 +55,15 @@ class Line {
 		this.bgLeftOldPos = P5.createVector(posX, posY)
 
 		// Style properties
-		this.lineWeight = 20
-		this.strokeWeight = 2
+		this.lineWeight = 30
+		this.strokeWeight = 3
 		this.strokeColor = 'white'
 	}
 
 	updatePos() {
 		// Update acceleration
 		this.acc = p5.Vector.sub(mouse, this.pos)
-		this.acc.setMag(0.05)
+		this.acc.setMag(0.15)
 
 		// Simulate physics
 		this.vel.add(this.acc)
@@ -73,18 +75,18 @@ class Line {
 		P5.noFill()
 		let angle = this.vel.heading()
 
-		// Line background
+		// Background lines style
 		P5.strokeWeight(this.lineWeight / 2 - this.strokeWeight)
 		P5.stroke('black')
 
-		// Background lines
+		// Background right line
 		this.bgRightPos = P5.createVector(
 			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2 / 2,
 			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2 / 2
 		)
 		P5.line(this.bgRightPos.x, this.bgRightPos.y, this.bgRightOldPos.x, this.bgRightOldPos.y)
 		this.bgRightOldPos = this.bgRightPos
-
+		// Background left line
 		this.bgLeftPos = P5.createVector(
 			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2 / 2,
 			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2 / 2
@@ -92,22 +94,24 @@ class Line {
 		P5.line(this.bgLeftPos.x, this.bgLeftPos.y, this.bgLeftOldPos.x, this.bgLeftOldPos.y)
 		this.bgLeftOldPos = this.bgLeftPos
 
-		// Center line
+		// Front lines style
 		P5.strokeWeight(this.strokeWeight)
 		P5.stroke(this.strokeColor)
-		P5.line(this.pos.x, this.pos.y, this.oldPos.x, this.oldPos.y)
 
+		// Center line
+		P5.line(this.pos.x, this.pos.y, this.oldPos.x, this.oldPos.y)
 		this.oldPos.x = this.pos.x
 		this.oldPos.y = this.pos.y
 
 		// Sides line
+		// Right side line
 		this.rightPos = P5.createVector(
 			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2,
 			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2
 		)
 		P5.line(this.rightPos.x, this.rightPos.y, this.rightOldPos.x, this.rightOldPos.y)
 		this.rightOldPos = this.rightPos
-
+		// Left side line
 		this.leftPos = P5.createVector(
 			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2,
 			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2
@@ -122,8 +126,15 @@ let pageTransitionButton = document.querySelector('.interface .button')
 let pageTransitionText = document.querySelector('.interface p')
 
 pageTransitionButton.addEventListener('click', () => {
-	// line = null
 	// Animate width and height only to keep the same border weight
-	gsap.to(pageTransitionButton, 1.7, { width: 2000, height: 2000, ease: Power2.easeInOut })
+	gsap.to(pageTransitionButton, 1.7, {
+		width: 2000,
+		height: 2000,
+		ease: Power2.easeInOut,
+		// then stop the line
+		onComplete: () => {
+			lines = []
+		},
+	})
 	gsap.to(pageTransitionText, 1, { opacity: 0, ease: Power2.easeInOut })
 })
