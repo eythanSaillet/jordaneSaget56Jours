@@ -7,9 +7,26 @@ body {
 	margin: 0;
 }
 
+// Mobile full screen
+.container {
+	position: fixed;
+	top: 0;
+}
+
+.payButtons {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
 #canvasContainer {
 	width: 100vw;
-	height: 100vh;
+	// height: 100vh;
+
+	// Mobile full screen
+	height: 100%;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -22,6 +39,7 @@ body {
 	top: 0;
 	left: 0;
 	overflow: hidden;
+	pointer-events: none;
 	.button {
 		width: 120px;
 		height: 120px;
@@ -34,6 +52,7 @@ body {
 		border-radius: 50%;
 		box-shadow: 0px 0px 30px 3px var(--backgroundColor);
 		cursor: pointer;
+		pointer-events: auto;
 		will-change: width, height;
 	}
 	p {

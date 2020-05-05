@@ -7,15 +7,20 @@ const P5 = new p5(s)
 
 // P5 Init
 let lines = []
+let canvas = null
 function s(sk) {
 	sk.setup = () => {
-		sk.createCanvas(window.innerWidth, window.innerHeight).parent('canvasContainer')
+		canvas = sk.createCanvas(window.innerWidth, window.innerHeight).parent('canvasContainer')
 		sk.background(10)
 		sk.frameRate(60)
 		sk.angleMode(sk.DEGREES)
 
+		// Update mouse pos vector with finger on mobile
+		canvas.touchStarted(setMousePos)
+		canvas.touchMoved(setMousePos)
+
 		// Create line
-		lines.push(new Line(P5.width / 2 - 150, -100))
+		lines.push(new Line(P5.width / 3, -100))
 	}
 
 	sk.draw = () => {
@@ -27,11 +32,16 @@ function s(sk) {
 	}
 }
 
-// Mouse position
-let mouse = P5.createVector()
+// Create vector with mouse pos
+let mouse = P5.createVector(window.innerWidth / 5, window.innerHeight / 2)
+function setMousePos() {
+	mouse.x = P5.pmouseX
+	mouse.y = P5.pmouseY
+}
+
+// Update mouse pos vector with mouse on desktop
 window.addEventListener('mousemove', (_event) => {
-	mouse.x = _event.clientX
-	mouse.y = _event.clientY
+	setMousePos()
 })
 
 class Line {
