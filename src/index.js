@@ -51,7 +51,7 @@ class Line {
 		this.vel = P5.createVector(0, 0)
 		this.acc = P5.createVector(0, 0)
 
-		this.maxSpeed = 4
+		this.maxSpeed = 3.5
 
 		// Drawing values
 		this.oldPos = P5.createVector(posX, posY)
@@ -65,8 +65,8 @@ class Line {
 		this.bgLeftOldPos = P5.createVector(posX, posY)
 
 		// Style properties
-		this.lineWeight = 30
-		this.strokeWeight = 3
+		this.lineWeight = 32
+		this.strokeWeight = 4.2
 		this.strokeColor = 'white'
 	}
 
@@ -161,6 +161,18 @@ let pageTransition = {
 		this.button.addEventListener('mouseleave', () => {
 			this.isLaunched === false ? gsap.to(this.button, 0.3, { width: 120, height: 120 }) : null
 		})
+
+		// Then display the button
+		this.displayButton()
+	},
+
+	// Display button after a delay
+	displayButton() {
+		setTimeout(() => {
+			gsap.to(this.button, 1, { opacity: 1 })
+			this.button.style.pointerEvents = 'auto'
+			gsap.to(this.buttonText, 1, { opacity: 1 })
+		}, 4000)
 	},
 }
 pageTransition.setupEvents()
