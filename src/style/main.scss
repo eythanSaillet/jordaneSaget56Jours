@@ -1,12 +1,73 @@
+:root {
+	--backgroundColor: rgb(10, 10, 10);
+}
+
 body {
-    background-color: pink;
-    margin: 0;
+	background-color: var(--backgroundColor);
+	margin: 0;
+}
+
+// Mobile full screen
+.container {
+	position: fixed;
+	top: 0;
 }
 
 #canvasContainer {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	width: 100vw;
+	// height: 100vh;
+
+	// Mobile full screen
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.interface {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+	.button {
+		width: 120px;
+		height: 120px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: var(--backgroundColor);
+		border: solid 2px white;
+		border-radius: 50%;
+		box-shadow: 0px 0px 30px 3px var(--backgroundColor);
+		cursor: pointer;
+		// pointer-events: none;
+		will-change: width, height;
+		opacity: 0;
+	}
+	p {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -75%);
+		color: white;
+		font-size: 11px;
+		line-height: 22px;
+		letter-spacing: 2px;
+		text-align: center;
+		font-family: 'Test';
+		pointer-events: none;
+		user-select: none;
+		transition: transform 150ms ease-in-out;
+		opacity: 0;
+	}
+}
+
+@font-face {
+	font-family: 'Test';
+	src: url('../assets/fonts/helveticaneue/HelveticaNeue Light.ttf');
 }
