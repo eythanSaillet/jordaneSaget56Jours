@@ -4,6 +4,8 @@
 
 body {
 	background-color: var(--backgroundColor);
+	color: white;
+	font-family: 'Montserrat Regular';
 	margin: 0;
 }
 
@@ -25,7 +27,7 @@ body {
 	align-items: center;
 }
 
-.interface {
+.buttonContainer {
 	width: 100vw;
 	height: 100vh;
 	position: absolute;
@@ -54,12 +56,11 @@ body {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -75%);
-		color: white;
 		font-size: 11px;
 		line-height: 22px;
 		letter-spacing: 2px;
 		text-align: center;
-		font-family: 'Test';
+		font-family: 'Helvetica Neue Light';
 		pointer-events: none;
 		user-select: none;
 		transition: transform 150ms ease-in-out;
@@ -67,7 +68,128 @@ body {
 	}
 }
 
+.shopContainer {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	background: rgba(#000000, 0.9);
+	.title {
+		width: 100vw;
+		height: 27vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		h1 {
+			font-size: 5.5em;
+			font-family: 'Brooke Smith Script';
+			font-weight: inherit;
+			margin: 0;
+			transform: translateY(-15%);
+		}
+	}
+	.book {
+		width: 100vw;
+		height: 73vh;
+		display: flex;
+		justify-content: center;
+		.slider {
+			width: 30%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: start;
+			.imageContainer {
+				height: 80%;
+				img {
+					height: 100%;
+				}
+			}
+			.sliderIndexesContainer {
+				width: 25%;
+				display: flex;
+				justify-content: space-around;
+				margin: 30px;
+				.index {
+					width: 7px;
+					height: 7px;
+					border-radius: 50%;
+					border: solid white 1px;
+				}
+			}
+		}
+		.infos {
+			width: 50%;
+			height: 100%;
+			.description {
+				h2 {
+					font-family: 'DM Serif Display Regular';
+					font-weight: inherit;
+					letter-spacing: 0.15em;
+					font-size: 1.7em;
+					margin: 0;
+				}
+				p {
+					margin: 20px 0;
+					font-size: 0.9em;
+					line-height: 1.5em;
+					opacity: 0.8;
+				}
+				.subtext {
+					color: #8e8e8e;
+				}
+			}
+			.prices {
+				height: 15%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				margin-top: 5%;
+				font-family: 'DM Serif Display Regular';
+				font-size: 1.5em;
+				letter-spacing: 0.15em;
+				> div {
+					display: flex;
+					justify-content: space-between;
+					width: 100%;
+				}
+			}
+			.buyButtonContainer {
+				height: 20%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				a {
+					padding: 10px 25px;
+					border: solid white 1px;
+					text-decoration: none;
+					color: white;
+				}
+			}
+		}
+	}
+}
+
 @font-face {
-	font-family: 'Test';
-	src: url('../assets/fonts/helveticaneue/HelveticaNeue Light.ttf');
+	font-family: 'Brooke Smith Script';
+	src: url('../assets/fonts/brooke_smith_script/brooke_smith_script.ttf');
+}
+@font-face {
+	font-family: 'DM Serif Display Regular';
+	src: url('../assets/fonts/dm_serif_display/dm_serif_display_regular.ttf');
+}
+@font-face {
+	font-family: 'Montserrat Regular';
+	src: url('../assets/fonts/montserrat/montserrat_regular.ttf');
+}
+
+// TEJ PLUS TARD
+@font-face {
+	font-family: 'Helvetica Neue Light';
+	src: url('../assets/fonts/helvetica_neue/HelveticaNeue Light.ttf');
 }

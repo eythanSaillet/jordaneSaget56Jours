@@ -20,7 +20,7 @@ function s(sk) {
 		canvas.touchMoved(setMousePos)
 
 		// Create line
-		lines.push(new Line(P5.width / 3, -100))
+		// lines.push(new Line(P5.width / 3, -100))
 	}
 
 	sk.draw = () => {
@@ -132,8 +132,8 @@ class Line {
 }
 
 let pageTransition = {
-	button: document.querySelector('.interface .button'),
-	buttonText: document.querySelector('.interface p'),
+	button: document.querySelector('.buttonContainer .button'),
+	buttonText: document.querySelector('.buttonContainer p'),
 	isLaunched: false,
 
 	setupEvents() {
