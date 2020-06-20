@@ -172,7 +172,58 @@ let pageTransition = {
 			gsap.to(this.button, 1, { opacity: 1 })
 			this.button.style.pointerEvents = 'auto'
 			gsap.to(this.buttonText, 1, { opacity: 1 })
-		}, 4000)
+		}, 0)
 	},
 }
 pageTransition.setupEvents()
+
+let slider = {
+	$imageContainer: document.querySelector('.slider .imageContainer'),
+	$images: document.querySelectorAll('.slider .imageContainer img'),
+
+	setup() {
+		console.log(this.$images)
+		this.$imageContainer.addEventListener('click', () => {
+			console.log('hey')
+		})
+	},
+}
+slider.setup()
+
+let shop = {
+	classicNumber: 0,
+	collectorNumber: 1,
+	animationDistance: 25,
+
+	setup() {
+		let classicButtons = document.querySelectorAll('.prices .classic .numberSelector>span')
+		let classicDigit = document.querySelectorAll('.prices .classic .numberSelector .number span')
+		classicDigit[0].innerHTML = this.classicNumber
+		classicDigit[1].innerHTML = this.classicNumber
+		for (const _button of classicButtons) {
+			_button.addEventListener('click', () => {
+				if (_button.className === 'less') {
+					if (this.classicNumber > 0) {
+						this.classicNumber--
+						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
+						gsap.to(classicDigit[0], 0.3, { y: -this.animationDistance, opacity: 0 })
+						classicDigit[1].innerHTML = this.classicNumber
+						gsap.to(classicDigit[1], 0, { y: this.animationDistance, opacity: 0 })
+						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
+					}
+				} else if (_button.className === 'more') {
+					if (this.classicNumber < 10) {
+						this.classicNumber++
+						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
+						gsap.to(classicDigit[0], 0.3, { y: this.animationDistance, opacity: 0 })
+						classicDigit[1].innerHTML = this.classicNumber
+						gsap.to(classicDigit[1], 0, { y: -this.animationDistance, opacity: 0 })
+						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
+					}
+				}
+				console.log(this.classicNumber)
+			})
+		}
+	},
+}
+shop.setup()
