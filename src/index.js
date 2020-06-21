@@ -3,6 +3,9 @@ import './style/main.scss'
 import * as p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
+import bookCover from './assets/images/bookCover.jpg'
+console.log(bookCover)
+
 const P5 = new p5(s)
 
 // P5 Init
@@ -20,7 +23,7 @@ function s(sk) {
 		canvas.touchMoved(setMousePos)
 
 		// Create line
-		lines.push(new Line(P5.width / 3, -100))
+		// lines.push(new Line(P5.width / 3, -100))
 	}
 
 	sk.draw = () => {
@@ -132,8 +135,8 @@ class Line {
 }
 
 let pageTransition = {
-	button: document.querySelector('.interface .button'),
-	buttonText: document.querySelector('.interface p'),
+	button: document.querySelector('.buttonContainer .button'),
+	buttonText: document.querySelector('.buttonContainer p'),
 	isLaunched: false,
 
 	setupEvents() {
@@ -172,7 +175,119 @@ let pageTransition = {
 			gsap.to(this.button, 1, { opacity: 1 })
 			this.button.style.pointerEvents = 'auto'
 			gsap.to(this.buttonText, 1, { opacity: 1 })
-		}, 4000)
+		}, 0)
 	},
 }
 pageTransition.setupEvents()
+
+let slider = {
+	$imageContainer: document.querySelector('.slider .imageContainer'),
+	$images: document.querySelectorAll('.slider .imageContainer img'),
+	$indexes: document.querySelectorAll('.sliderIndexesContainer .index'),
+
+	index: 0,
+	canSlide: true,
+
+	setup() {
+		this.actualizeVisibleIndexes()
+		this.$imageContainer.addEventListener('click', () => {
+			this.slide()
+			this.actualizeVisibleIndexes()
+		})
+	},
+
+	slide() {
+		if (this.canSlide) {
+			this.canSlide = false
+			this.index === 3 ? (this.index = 1) : this.index++
+			for (const _image of this.$images) {
+				gsap.to(_image, 0.8, {
+					x: `-${100 * this.index}%`,
+					ease: Power2.easeInOut,
+					onComplete: () => {
+						this.canSlide = true
+						if (this.index === 3) {
+							gsap.to(_image, 0, { x: '0%' })
+						}
+					},
+				})
+			}
+		}
+	},
+
+	actualizeVisibleIndexes() {
+		for (let i = 0; i < this.$indexes.length; i++) {
+			this.index === i
+				? gsap.to(this.$indexes[i], 0.5, { background: 'white' })
+				: gsap.to(this.$indexes[i], 0.5, { background: 'none' })
+		}
+		this.index === 3 ? gsap.to(this.$indexes[0], 0.5, { background: 'white' }) : null
+	},
+}
+slider.setup()
+
+let shop = {
+	classicNumber: 0,
+	collectorNumber: 1,
+	animationDistance: 25,
+
+	setup() {
+		let classicButtons = document.querySelectorAll('.prices .classic .numberSelector>span')
+		let classicDigit = document.querySelectorAll('.prices .classic .numberSelector .number span')
+		classicDigit[0].innerHTML = this.classicNumber
+		classicDigit[1].innerHTML = this.classicNumber
+		for (const _button of classicButtons) {
+			_button.addEventListener('click', () => {
+				if (_button.className === 'less') {
+					if (this.classicNumber > 0) {
+						this.classicNumber--
+						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
+						gsap.to(classicDigit[0], 0.3, { y: -this.animationDistance, opacity: 0 })
+						classicDigit[1].innerHTML = this.classicNumber
+						gsap.to(classicDigit[1], 0, { y: this.animationDistance, opacity: 0 })
+						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
+					}
+				} else if (_button.className === 'more') {
+					if (this.classicNumber < 10) {
+						this.classicNumber++
+						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
+						gsap.to(classicDigit[0], 0.3, { y: this.animationDistance, opacity: 0 })
+						classicDigit[1].innerHTML = this.classicNumber
+						gsap.to(classicDigit[1], 0, { y: -this.animationDistance, opacity: 0 })
+						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
+					}
+				}
+			})
+		}
+	},
+}
+shop.setup()
+
+let resizer = {
+	$imageContainer: document.querySelector('.slider .imageContainer'),
+	$image: document.querySelector('.slider .imageContainer img'),
+	isLoaded: false,
+
+	setup() {
+		console.log(this.$image)
+		if (this.$image.isLoaded) {
+		}
+		this.$image.addEventListener('load', () => {
+			if (!this.isLoaded) {
+				this.isLoaded = true
+				this.resizeImageContainer()
+				window.addEventListener('resize', () => {
+					this.resizeImageContainer()
+				})
+			}
+		})
+		this.$image.src = bookCover
+	},
+
+	resizeImageContainer() {
+		this.$image.style.width = `max-width: 100%;`
+		let width = this.$image.getBoundingClientRect().width
+		this.$imageContainer.style.width = `${width}px`
+	},
+}
+resizer.setup()
