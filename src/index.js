@@ -4,7 +4,6 @@ import * as p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/bookCover.jpg'
-console.log(bookCover)
 
 const P5 = new p5(s)
 
@@ -230,35 +229,40 @@ let shop = {
 	classicNumber: 0,
 	collectorNumber: 1,
 	animationDistance: 25,
+	names: ['classic', 'collector'],
+
+	$classicButtons: document.querySelectorAll('.prices .classic .numberSelector>span'),
+	$classicDigits: document.querySelectorAll('.prices .classic .numberSelector .number span'),
+	$collectorButtons: document.querySelectorAll('.prices .collector .numberSelector>span'),
+	$collectorDigits: document.querySelectorAll('.prices .collector .numberSelector .number span'),
 
 	setup() {
-		let classicButtons = document.querySelectorAll('.prices .classic .numberSelector>span')
-		let classicDigit = document.querySelectorAll('.prices .classic .numberSelector .number span')
-		classicDigit[0].innerHTML = this.classicNumber
-		classicDigit[1].innerHTML = this.classicNumber
-		for (const _button of classicButtons) {
-			_button.addEventListener('click', () => {
-				if (_button.className === 'less') {
-					if (this.classicNumber > 0) {
-						this.classicNumber--
-						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
-						gsap.to(classicDigit[0], 0.3, { y: -this.animationDistance, opacity: 0 })
-						classicDigit[1].innerHTML = this.classicNumber
-						gsap.to(classicDigit[1], 0, { y: this.animationDistance, opacity: 0 })
-						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
+		for (const _name of this.names) {
+			this[`$${_name}Digits`][0].innerHTML = this[`${_name}Number`]
+			this[`$${_name}Digits`][1].innerHTML = this[`${_name}Number`]
+			for (const _button of this[`$${_name}Buttons`]) {
+				_button.addEventListener('click', () => {
+					if (_button.className === 'less') {
+						if (this[`${_name}Number`] > 0) {
+							this.updateValue(-1, _name)
+						}
+					} else if (_button.className === 'more') {
+						if (this[`${_name}Number`] < 10) {
+							this.updateValue(1, _name)
+						}
 					}
-				} else if (_button.className === 'more') {
-					if (this.classicNumber < 10) {
-						this.classicNumber++
-						gsap.to(classicDigit[0], 0, { y: 0, opacity: 1 })
-						gsap.to(classicDigit[0], 0.3, { y: this.animationDistance, opacity: 0 })
-						classicDigit[1].innerHTML = this.classicNumber
-						gsap.to(classicDigit[1], 0, { y: -this.animationDistance, opacity: 0 })
-						gsap.to(classicDigit[1], 0.3, { y: 0, opacity: 1 })
-					}
-				}
-			})
+				})
+			}
 		}
+	},
+
+	updateValue(direction, name) {
+		this[`${name}Number`] += 1 * direction
+		gsap.to(this[`$${name}Digits`][0], 0, { y: 0, opacity: 1 })
+		gsap.to(this[`$${name}Digits`][0], 0.3, { y: this.animationDistance * -1 * direction, opacity: 0 })
+		this[`$${name}Digits`][1].innerHTML = this[`${name}Number`]
+		gsap.to(this[`$${name}Digits`][1], 0, { y: this.animationDistance * direction, opacity: 0 })
+		gsap.to(this[`$${name}Digits`][1], 0.3, { y: 0, opacity: 1 })
 	},
 }
 shop.setup()
@@ -269,7 +273,6 @@ let resizer = {
 	isLoaded: false,
 
 	setup() {
-		console.log(this.$image)
 		if (this.$image.isLoaded) {
 		}
 		this.$image.addEventListener('load', () => {
