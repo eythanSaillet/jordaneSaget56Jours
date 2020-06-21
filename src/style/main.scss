@@ -105,21 +105,17 @@ body {
 			align-items: center;
 			justify-content: start;
 			box-sizing: content-box;
+			margin-right: 5%;
 			.imageContainer {
 				height: 80%;
 				width: 100%;
-				margin-right: 10%;
-				position: relative;
-				.imageBox {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+				overflow: hidden;
+				img {
 					max-width: 100%;
 					max-height: 100%;
-					img {
-						width: 100%;
-						height: 100%;
-						position: absolute;
-						top: 0;
-						left: 0;
-					}
 				}
 			}
 			.sliderIndexesContainer {
