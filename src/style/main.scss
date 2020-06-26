@@ -1,5 +1,5 @@
 :root {
-	--backgroundColor: #0a0a0a;
+	--backgroundColor: #070707;
 }
 
 body {
@@ -7,14 +7,15 @@ body {
 	color: white;
 	font-family: 'Montserrat Regular';
 	margin: 0;
+	// overflow-x: hidden;
 }
 
 // Mobile full screen
 .container {
 	// position: fixed;
 	// top: 0;
+	width: 100vw;
 	height: 100vh;
-	// overflow: hidden;
 }
 
 #canvasContainer {
@@ -24,7 +25,7 @@ body {
 	// Mobile full screen
 	height: 100%;
 
-	display: none;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
@@ -40,7 +41,7 @@ body {
 	left: 0;
 	overflow: hidden;
 	pointer-events: none;
-	display: none;
+	// display: none;
 	.button {
 		width: 120px;
 		height: 120px;
@@ -74,16 +75,17 @@ body {
 	}
 }
 
-.shopContainer {
+.shopOverlay {
 	width: 100vw;
 	height: 100vh;
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: none;
+	display: flex;
 	flex-direction: column;
 	justify-content: start;
-	background: var(--backgroundColor);
+	visibility: hidden;
+	overflow-x: hidden;
 	.title {
 		width: 100vw;
 		height: 27vh;
@@ -202,11 +204,10 @@ body {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				a {
+				.button {
 					padding: 10px 25px;
 					border: solid white 1px;
-					text-decoration: none;
-					color: white;
+					cursor: pointer;
 				}
 			}
 		}
@@ -223,10 +224,10 @@ input {
 .formOverlay {
 	width: 100vw;
 	// height: 100vh;
-	// position: absolute;
-	// top: 0;
-	// left: 0;
-	display: flex;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	background: var(--backgroundColor);
@@ -237,6 +238,7 @@ input {
 		flex-wrap: wrap;
 		margin-top: 15vh;
 		font-family: 'Montserrat Regular';
+		// visibility: hidden; ////////
 		& > div {
 			margin: 0 50px;
 		}
@@ -378,7 +380,7 @@ input {
 }
 
 // @media only screen and (max-height: 700px) {
-// 	.shopContainer {
+// 	.shopOverlay {
 // 		.book {
 // 			.infos {
 // 				.description {

@@ -22,7 +22,7 @@ function s(sk) {
 		canvas.touchMoved(setMousePos)
 
 		// Create line
-		// lines.push(new Line(P5.width / 3, -100))
+		lines.push(new Line(P5.width / 3, -100, 'white'))
 	}
 
 	sk.draw = () => {
@@ -47,7 +47,7 @@ window.addEventListener('mousemove', (_event) => {
 })
 
 class Line {
-	constructor(posX, posY) {
+	constructor(posX, posY, color) {
 		// Physics values
 		this.pos = P5.createVector(posX, posY)
 		this.vel = P5.createVector(0, 0)
@@ -69,7 +69,7 @@ class Line {
 		// Style properties
 		this.lineWeight = 32
 		this.strokeWeight = 4.2
-		this.strokeColor = 'white'
+		this.strokeColor = color
 	}
 
 	updatePos() {
@@ -89,7 +89,7 @@ class Line {
 
 		// Background lines style
 		P5.strokeWeight(this.lineWeight / 2 - this.strokeWeight)
-		P5.stroke('black')
+		P5.stroke('#070707')
 
 		// Background right line
 		this.bgRightPos = P5.createVector(
@@ -134,50 +134,157 @@ class Line {
 }
 
 let pageTransition = {
-	button: document.querySelector('.buttonContainer .button'),
-	buttonText: document.querySelector('.buttonContainer p'),
+	$canvas: document.querySelector('#canvasContainer'),
+	$canvasbutton: document.querySelector('.buttonContainer .button'),
+	$canvasbuttonText: document.querySelector('.buttonContainer p'),
+	$shopOverlay: document.querySelector('.shopOverlay'),
+	$buyButton: document.querySelector('.shopOverlay .buyButtonContainer .button'),
+	$formOverlay: document.querySelector('.formOverlay'),
+
 	isLaunched: false,
+
+	shopApparition: null,
+	formApparition: null,
+
+	setup() {
+		this.setupEvents()
+		this.setupTimelines()
+	},
 
 	setupEvents() {
 		// Page transition animation
-		this.button.addEventListener('click', () => {
-			this.isLaunched = true
-			// Animate width and height only to keep the same border weight
-			gsap.to(this.button, 1.7, {
-				width: 2000,
-				height: 2000,
-				ease: Power2.easeInOut,
-				// then stop the line
-				onComplete: () => {
-					lines = []
-				},
-			})
-			// Make vanish the text
-			gsap.to(this.buttonText, 1, { opacity: 0, ease: Power2.easeInOut })
+		this.$canvasbutton.addEventListener('click', () => {
+			this.goToShop()
 		})
 
-		// Button hover animation
-		this.button.addEventListener('mouseenter', () => {
-			this.isLaunched === false ? gsap.to(this.button, 0.3, { width: 130, height: 130 }) : null
+		// Canvas button hover animation
+		this.$canvasbutton.addEventListener('mouseenter', () => {
+			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 130, height: 130 }) : null
 		})
-		this.button.addEventListener('mouseleave', () => {
-			this.isLaunched === false ? gsap.to(this.button, 0.3, { width: 120, height: 120 }) : null
+		this.$canvasbutton.addEventListener('mouseleave', () => {
+			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 120, height: 120 }) : null
+		})
+
+		// Buy button => form page
+		this.$buyButton.addEventListener('click', () => {
+			this.goToPayment()
 		})
 
 		// Then display the button
 		this.displayButton()
 	},
 
+	setupTimelines() {
+		// Shop page apparition
+		this.shopApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
+		this.shopApparition.from('.shopOverlay .slider', 0.6, { opacity: 0, x: '-300px' })
+		this.shopApparition.from('.shopOverlay .title', 0.5, { opacity: 0, y: '200px' }, '-=0.5')
+		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .description .firstP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .description .secondP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .description .subtext', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .prices .classic', 0.5, { opacity: 0, x: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .prices .collector', 0.5, { opacity: 0, x: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .buyButtonContainer .button', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+
+		// Payment page apparition
+		this.formApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
+		this.formApparition.from('.formOverlay .dedicationContainer', 0.5, { opacity: 0, x: '150px' }, '-=0.4')
+		this.formApparition.from(
+			'.formOverlay .shippingChoiceContainer .shippingContainer',
+			0.5,
+			{
+				opacity: 0,
+				x: '150px',
+			},
+			'-=0.4'
+		)
+		this.formApparition.from(
+			'.formOverlay .shippingChoiceContainer .handContainer',
+			0.5,
+			{
+				opacity: 0,
+				x: '150px',
+			},
+			'-=0.4'
+		)
+		this.formApparition.from('.formOverlay .namesContainer .firstNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .namesContainer .lastNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .mailContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .countryContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .cityContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .postalCodeContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .streetContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .bill .normal', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .bill .collector', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .bill .shipping', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .bill .line', 0.65, { opacity: 0 }, '-=0.65')
+		this.formApparition.from('.formOverlay .bill .totalContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .cardFormContainer .cardNumberContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .cardFormContainer .cardDateContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .cardFormContainer .cardCryptoContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
+		this.formApparition.from('.formOverlay .payButtonContainer', 0.65, { opacity: 0, y: '150px' }, '-=0.6')
+	},
+
 	// Display button after a delay
 	displayButton() {
 		setTimeout(() => {
-			gsap.to(this.button, 1, { opacity: 1 })
-			this.button.style.pointerEvents = 'auto'
-			gsap.to(this.buttonText, 1, { opacity: 1 })
+			gsap.to(this.$canvasbutton, 1, { opacity: 1 })
+			this.$canvasbutton.style.pointerEvents = 'auto'
+			gsap.to(this.$canvasbuttonText, 1, { opacity: 1 })
 		}, 0)
 	},
+
+	goToShop() {
+		this.isLaunched = true
+
+		// Animate width and height only to keep the same border weight
+		gsap.to(this.$canvasbutton, 1.5, {
+			width: window.innerWidth * 1.5,
+			height: window.innerWidth * 1.5,
+			ease: Power2.easeIn,
+			// then stop the line
+			onComplete: () => {
+				// Clear line
+				lines = []
+
+				// Display shop overlay
+				this.$shopOverlay.style.visibility = 'visible'
+				this.$canvasbutton.style.visibility = 'hidden'
+
+				// Display shop overlay elements
+				this.shopApparition.play()
+
+				// Recreate black line
+				P5.background('#070707')
+				lines.push(new Line(P5.width / 3, -100, 'black'))
+			},
+		})
+		// Make vanish the text
+		gsap.to(this.$canvasbuttonText, 1, { opacity: 0, ease: Power2.easeInOut })
+	},
+
+	goToPayment() {
+		gsap.to(this.$canvas, 0.7, {
+			opacity: 0,
+			onComplete: () => {
+				this.$canvas.style.visibility = 'hidden'
+			},
+		})
+		gsap.to(this.$shopOverlay, 0.7, {
+			opacity: 0,
+			onComplete: () => {
+				this.$shopOverlay.style.visibility = 'hidden'
+				this.$formOverlay.style.display = 'flex'
+				setTimeout(() => {
+					// Display form overlay elements
+					this.formApparition.play()
+				}, 300)
+			},
+		})
+	},
 }
-pageTransition.setupEvents()
+pageTransition.setup()
 
 let slider = {
 	$imageContainer: document.querySelector('.slider .imageContainer'),
@@ -216,9 +323,7 @@ let slider = {
 
 	actualizeVisibleIndexes() {
 		for (let i = 0; i < this.$indexes.length; i++) {
-			this.index === i
-				? gsap.to(this.$indexes[i], 0.5, { background: 'white' })
-				: gsap.to(this.$indexes[i], 0.5, { background: 'none' })
+			this.index === i ? gsap.to(this.$indexes[i], 0.5, { background: 'white' }) : gsap.to(this.$indexes[i], 0.5, { background: 'none' })
 		}
 		this.index === 3 ? gsap.to(this.$indexes[0], 0.5, { background: 'white' }) : null
 	},
