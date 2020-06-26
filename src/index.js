@@ -168,6 +168,7 @@ let pageTransition = {
 		// Buy button => form page
 		this.$buyButton.addEventListener('click', () => {
 			this.goToPayment()
+			shop.setupBill()
 		})
 
 		// Then display the button
@@ -177,9 +178,9 @@ let pageTransition = {
 	setupTimelines() {
 		// Shop page apparition
 		this.shopApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
-		this.shopApparition.from('.shopOverlay .slider', 0.6, { opacity: 0, x: '-300px' })
-		this.shopApparition.from('.shopOverlay .title', 0.5, { opacity: 0, y: '200px' }, '-=0.5')
-		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .slider', 0.8, { opacity: 0, x: '-300px' })
+		this.shopApparition.from('.shopOverlay .title', 0.7, { opacity: 0, y: '200px' }, '-=0.7')
+		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.6')
 		this.shopApparition.from('.shopOverlay .description .firstP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
 		this.shopApparition.from('.shopOverlay .description .secondP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
 		this.shopApparition.from('.shopOverlay .description .subtext', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
@@ -189,24 +190,24 @@ let pageTransition = {
 
 		// Payment page apparition
 		this.formApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
-		this.formApparition.from('.formOverlay .dedicationContainer', 0.5, { opacity: 0, x: '150px' }, '-=0.4')
+		this.formApparition.from('.formOverlay .dedicationContainer', 0.7, { opacity: 0, x: '150px' })
 		this.formApparition.from(
 			'.formOverlay .shippingChoiceContainer .shippingContainer',
-			0.5,
+			0.7,
 			{
 				opacity: 0,
 				x: '150px',
 			},
-			'-=0.4'
+			'-=0.8'
 		)
 		this.formApparition.from(
 			'.formOverlay .shippingChoiceContainer .handContainer',
-			0.5,
+			0.7,
 			{
 				opacity: 0,
 				x: '150px',
 			},
-			'-=0.4'
+			'-=0.6'
 		)
 		this.formApparition.from('.formOverlay .namesContainer .firstNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
 		this.formApparition.from('.formOverlay .namesContainer .lastNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
@@ -335,11 +336,22 @@ let shop = {
 	collectorNumber: 1,
 	animationDistance: 25,
 	names: ['classic', 'collector'],
+	shippingPrice: 5,
+	totalPrice: 0,
 
 	$classicButtons: document.querySelectorAll('.prices .classic .numberSelector>span'),
 	$classicDigits: document.querySelectorAll('.prices .classic .numberSelector .number span'),
 	$collectorButtons: document.querySelectorAll('.prices .collector .numberSelector>span'),
 	$collectorDigits: document.querySelectorAll('.prices .collector .numberSelector .number span'),
+
+	$billClassicNumber: document.querySelector('.formOverlay .bill .normal .number span'),
+	$billCollectorNumber: document.querySelector('.formOverlay .bill .collector .number span'),
+	$billClassicPrice: document.querySelector('.formOverlay .bill .normal .price'),
+	$billCollectorPrice: document.querySelector('.formOverlay .bill .collector .price'),
+
+	$billShippingPrice: document.querySelector('.formOverlay .bill .shipping .price'),
+	$billTotal: document.querySelector('.formOverlay .bill .totalContainer .total'),
+	$shippingChoiceContainer: document.querySelector('.shippingChoiceContainer'),
 
 	setup() {
 		for (const _name of this.names) {
@@ -359,6 +371,7 @@ let shop = {
 				})
 			}
 		}
+		this.setupShippingChoiceEvents()
 	},
 
 	updateValue(direction, name) {
@@ -368,6 +381,46 @@ let shop = {
 		this[`$${name}Digits`][1].innerHTML = this[`${name}Number`]
 		gsap.to(this[`$${name}Digits`][1], 0, { y: this.animationDistance * direction, opacity: 0 })
 		gsap.to(this[`$${name}Digits`][1], 0.3, { y: 0, opacity: 1 })
+	},
+
+	setupBill() {
+		// Update numbers
+		this.$billClassicNumber.innerHTML = this.classicNumber
+		this.$billCollectorNumber.innerHTML = this.collectorNumber
+		// Update prices
+		this.$billClassicPrice.innerHTML = `${this.classicNumber * 28.75} €`
+		this.$billCollectorPrice.innerHTML = `${this.collectorNumber * 56} €`
+		this.totalPrice = this.classicNumber * 28.75 + this.collectorNumber * 56 + 5
+		this.$billTotal.innerHTML = `${this.totalPrice} €`
+
+		// Hide sipping choice if there is no collector
+		if (this.collectorNumber === 0) {
+			this.$shippingChoiceContainer.style.display = 'none'
+		}
+	},
+
+	setupShippingChoiceEvents() {
+		document.querySelector('.shippingChoiceContainer .shippingContainer input').addEventListener('click', () => {
+			this.updateShippingBill(5)
+		})
+		document.querySelector('.shippingChoiceContainer .handContainer input').addEventListener('click', () => {
+			this.updateShippingBill(0)
+		})
+	},
+
+	updateShippingBill(price) {
+		gsap.to(this, 0.7, {
+			shippingPrice: price,
+			onUpdate: () => {
+				this.$billShippingPrice.innerHTML = `${Math.ceil(this.shippingPrice)} €`
+			},
+		})
+		gsap.to(this, 0.7, {
+			totalPrice: this.classicNumber * 28.75 + this.collectorNumber * 56 + price,
+			onUpdate: () => {
+				this.$billTotal.innerHTML = `${Math.ceil(this.totalPrice)} €`
+			},
+		})
 	},
 }
 shop.setup()

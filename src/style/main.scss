@@ -238,7 +238,6 @@ input {
 		flex-wrap: wrap;
 		margin-top: 15vh;
 		font-family: 'Montserrat Regular';
-		// visibility: hidden; ////////
 		& > div {
 			margin: 0 50px;
 		}
@@ -246,6 +245,7 @@ input {
 			width: 425px;
 			margin-bottom: 15vh;
 			.dedicationContainer {
+				margin-bottom: 20px;
 				textarea {
 					height: 110px;
 					resize: none;
