@@ -1,5 +1,5 @@
 {
-	"name": "jordanSaget56Jours",
+	"name": "jordaneSaget56Jours",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
@@ -10,7 +10,9 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {},
+	"dependencies": {
+		"webpack-php-loader": "^0.5.0"
+	},
 	"devDependencies": {
 		"@babel/core": "^7.10.2",
 		"@babel/preset-env": "^7.10.2",
@@ -26,7 +28,7 @@
 		"mini-css-extract-plugin": "^0.9.0",
 		"minimist": "^1.2.5",
 		"p5": "^1.0.0",
-		"sass": "^1.26.8",
+		"sass": "^1.26.9",
 		"sass-loader": "^8.0.2",
 		"style-loader": "^1.2.1",
 		"webpack": "^4.43.0",

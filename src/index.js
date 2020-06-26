@@ -5,6 +5,10 @@ import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/bookCover.jpg'
 
+let stripe = Stripe(
+	'pk_test_51GueT4LdNkflxGiPwZzoMXuxQLG13G7RXRvvCAjk7YWhVW1anAKjkJt0mdBeI02uX6kWafb51RmcTH2gYiRp4fxE00t0elrAF9'
+)
+
 const P5 = new p5(s)
 
 // P5 Init
@@ -12,7 +16,9 @@ let lines = []
 let canvas = null
 function s(sk) {
 	sk.setup = () => {
-		canvas = sk.createCanvas(window.innerWidth, window.innerHeight).parent('canvasContainer')
+		canvas = sk
+			.createCanvas(window.innerWidth, window.innerHeight)
+			.parent('canvasContainer')
 		sk.background(10)
 		sk.frameRate(60)
 		sk.angleMode(sk.DEGREES)
@@ -96,14 +102,24 @@ class Line {
 			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2 / 2,
 			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2 / 2
 		)
-		P5.line(this.bgRightPos.x, this.bgRightPos.y, this.bgRightOldPos.x, this.bgRightOldPos.y)
+		P5.line(
+			this.bgRightPos.x,
+			this.bgRightPos.y,
+			this.bgRightOldPos.x,
+			this.bgRightOldPos.y
+		)
 		this.bgRightOldPos = this.bgRightPos
 		// Background left line
 		this.bgLeftPos = P5.createVector(
 			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2 / 2,
 			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2 / 2
 		)
-		P5.line(this.bgLeftPos.x, this.bgLeftPos.y, this.bgLeftOldPos.x, this.bgLeftOldPos.y)
+		P5.line(
+			this.bgLeftPos.x,
+			this.bgLeftPos.y,
+			this.bgLeftOldPos.x,
+			this.bgLeftOldPos.y
+		)
 		this.bgLeftOldPos = this.bgLeftPos
 
 		// Front lines style
@@ -121,14 +137,24 @@ class Line {
 			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2,
 			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2
 		)
-		P5.line(this.rightPos.x, this.rightPos.y, this.rightOldPos.x, this.rightOldPos.y)
+		P5.line(
+			this.rightPos.x,
+			this.rightPos.y,
+			this.rightOldPos.x,
+			this.rightOldPos.y
+		)
 		this.rightOldPos = this.rightPos
 		// Left side line
 		this.leftPos = P5.createVector(
 			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2,
 			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2
 		)
-		P5.line(this.leftPos.x, this.leftPos.y, this.leftOldPos.x, this.leftOldPos.y)
+		P5.line(
+			this.leftPos.x,
+			this.leftPos.y,
+			this.leftOldPos.x,
+			this.leftOldPos.y
+		)
 		this.leftOldPos = this.leftPos
 	}
 }
@@ -138,13 +164,10 @@ let pageTransition = {
 	$canvasbutton: document.querySelector('.buttonContainer .button'),
 	$canvasbuttonText: document.querySelector('.buttonContainer p'),
 	$shopOverlay: document.querySelector('.shopOverlay'),
-	$buyButton: document.querySelector('.shopOverlay .buyButtonContainer .button'),
-	$formOverlay: document.querySelector('.formOverlay'),
+	$buyButton: document.querySelector('.shopOverlay .button'),
 
 	isLaunched: false,
-
 	shopApparition: null,
-	formApparition: null,
 
 	setup() {
 		this.setupEvents()
@@ -159,16 +182,19 @@ let pageTransition = {
 
 		// Canvas button hover animation
 		this.$canvasbutton.addEventListener('mouseenter', () => {
-			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 130, height: 130 }) : null
+			this.isLaunched === false
+				? gsap.to(this.$canvasbutton, 0.3, { width: 130, height: 130 })
+				: null
 		})
 		this.$canvasbutton.addEventListener('mouseleave', () => {
-			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 120, height: 120 }) : null
+			this.isLaunched === false
+				? gsap.to(this.$canvasbutton, 0.3, { width: 120, height: 120 })
+				: null
 		})
 
 		// Buy button => form page
 		this.$buyButton.addEventListener('click', () => {
 			this.goToPayment()
-			shop.setupBill()
 		})
 
 		// Then display the button
@@ -177,54 +203,62 @@ let pageTransition = {
 
 	setupTimelines() {
 		// Shop page apparition
-		this.shopApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
-		this.shopApparition.from('.shopOverlay .slider', 0.8, { opacity: 0, x: '-300px' })
-		this.shopApparition.from('.shopOverlay .title', 0.7, { opacity: 0, y: '200px' }, '-=0.6')
-		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.6')
-		this.shopApparition.from('.shopOverlay .description .firstP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
-		this.shopApparition.from('.shopOverlay .description .secondP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
-		this.shopApparition.from('.shopOverlay .description .subtext', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
-		this.shopApparition.from('.shopOverlay .prices .classic', 0.5, { opacity: 0, x: '100px' }, '-=0.4')
-		this.shopApparition.from('.shopOverlay .prices .collector', 0.5, { opacity: 0, x: '100px' }, '-=0.4')
-		this.shopApparition.from('.shopOverlay .buyButtonContainer .button', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
-
-		// Payment page apparition
-		this.formApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
-		this.formApparition.from('.formOverlay .dedicationContainer', 0.7, { opacity: 0, x: '150px' })
-		this.formApparition.from(
-			'.formOverlay .shippingChoiceContainer .shippingContainer',
+		this.shopApparition = gsap.timeline({
+			paused: true,
+			defaultEase: Power2.easeInOut,
+		})
+		this.shopApparition.from('.shopOverlay .slider', 0.8, {
+			opacity: 0,
+			x: '-300px',
+		})
+		this.shopApparition.from(
+			'.shopOverlay .title',
 			0.7,
-			{
-				opacity: 0,
-				x: '150px',
-			},
-			'-=0.8'
-		)
-		this.formApparition.from(
-			'.formOverlay .shippingChoiceContainer .handContainer',
-			0.7,
-			{
-				opacity: 0,
-				x: '150px',
-			},
+			{ opacity: 0, y: '200px' },
 			'-=0.6'
 		)
-		this.formApparition.from('.formOverlay .namesContainer .firstNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .namesContainer .lastNameContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .mailContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .countryContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .cityContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .postalCodeContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .streetContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .bill .normal', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .bill .collector', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .bill .shipping', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .bill .line', 0.65, { opacity: 0 }, '-=0.65')
-		this.formApparition.from('.formOverlay .bill .totalContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .cardFormContainer .cardNumberContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .cardFormContainer .cardDateContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .cardFormContainer .cardCryptoContainer', 0.65, { opacity: 0, x: '150px' }, '-=0.6')
-		this.formApparition.from('.formOverlay .payButtonContainer', 0.65, { opacity: 0, y: '150px' }, '-=0.6')
+		this.shopApparition.from(
+			'.shopOverlay .description h2',
+			0.5,
+			{ opacity: 0, y: '100px' },
+			'-=0.6'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .description .firstP',
+			0.5,
+			{ opacity: 0, y: '100px' },
+			'-=0.4'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .description .secondP',
+			0.5,
+			{ opacity: 0, y: '100px' },
+			'-=0.4'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .description .subtext',
+			0.5,
+			{ opacity: 0, y: '100px' },
+			'-=0.4'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .prices .classic',
+			0.5,
+			{ opacity: 0, x: '100px' },
+			'-=0.4'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .prices .collector',
+			0.5,
+			{ opacity: 0, x: '100px' },
+			'-=0.4'
+		)
+		this.shopApparition.from(
+			'.shopOverlay .buyButtonContainer .button',
+			0.5,
+			{ opacity: 0, y: '100px' },
+			'-=0.4'
+		)
 	},
 
 	// Display button after a delay
@@ -262,27 +296,279 @@ let pageTransition = {
 			},
 		})
 		// Make vanish the text
-		gsap.to(this.$canvasbuttonText, 1, { opacity: 0, ease: Power2.easeInOut })
+		gsap.to(this.$canvasbuttonText, 1, {
+			opacity: 0,
+			ease: Power2.easeInOut,
+		})
 	},
 
 	goToPayment() {
-		gsap.to(this.$canvas, 0.7, {
-			opacity: 0,
-			onComplete: () => {
-				this.$canvas.style.visibility = 'hidden'
-			},
-		})
-		gsap.to(this.$shopOverlay, 0.7, {
-			opacity: 0,
-			onComplete: () => {
-				this.$shopOverlay.style.visibility = 'hidden'
-				this.$formOverlay.style.display = 'flex'
-				setTimeout(() => {
-					// Display form overlay elements
-					this.formApparition.play()
-				}, 300)
-			},
-		})
+		let items = []
+		if (shop.classicNumber > 0) {
+			items.push({
+				price: 'price_1GyOo5LdNkflxGiPupKxv6OZ',
+				quantity: shop.classicNumber,
+			})
+		}
+		if (shop.collectorNumber > 0) {
+			items.push({
+				price: 'price_1GyOo5LdNkflxGiPwERCM4eH',
+				quantity: shop.collectorNumber,
+			})
+		}
+		stripe
+			.redirectToCheckout({
+				lineItems: items,
+				mode: 'payment',
+				successUrl: 'https://example.com/success',
+				cancelUrl: 'https://example.com/cancel',
+				shippingAddressCollection: {
+					allowedCountries: [
+						'AC',
+						'AD',
+						'AE',
+						'AF',
+						'AG',
+						'AI',
+						'AL',
+						'AM',
+						'AO',
+						'AQ',
+						'AR',
+						'AT',
+						'AU',
+						'AW',
+						'AX',
+						'AZ',
+						'BA',
+						'BB',
+						'BD',
+						'BE',
+						'BF',
+						'BG',
+						'BH',
+						'BI',
+						'BJ',
+						'BL',
+						'BM',
+						'BN',
+						'BO',
+						'BQ',
+						'BR',
+						'BS',
+						'BT',
+						'BV',
+						'BW',
+						'BY',
+						'BZ',
+						'CA',
+						'CD',
+						'CF',
+						'CG',
+						'CH',
+						'CI',
+						'CK',
+						'CL',
+						'CM',
+						'CN',
+						'CO',
+						'CR',
+						'CV',
+						'CW',
+						'CY',
+						'CZ',
+						'DE',
+						'DJ',
+						'DK',
+						'DM',
+						'DO',
+						'DZ',
+						'EC',
+						'EE',
+						'EG',
+						'EH',
+						'ER',
+						'ES',
+						'ET',
+						'FI',
+						'FJ',
+						'FK',
+						'FO',
+						'FR',
+						'GA',
+						'GB',
+						'GD',
+						'GE',
+						'GF',
+						'GG',
+						'GH',
+						'GI',
+						'GL',
+						'GM',
+						'GN',
+						'GP',
+						'GQ',
+						'GR',
+						'GS',
+						'GT',
+						'GU',
+						'GW',
+						'GY',
+						'HK',
+						'HN',
+						'HR',
+						'HT',
+						'HU',
+						'ID',
+						'IE',
+						'IL',
+						'IM',
+						'IN',
+						'IO',
+						'IQ',
+						'IS',
+						'IT',
+						'JE',
+						'JM',
+						'JO',
+						'JP',
+						'KE',
+						'KG',
+						'KH',
+						'KI',
+						'KM',
+						'KN',
+						'KR',
+						'KW',
+						'KY',
+						'KZ',
+						'LA',
+						'LB',
+						'LC',
+						'LI',
+						'LK',
+						'LR',
+						'LS',
+						'LT',
+						'LU',
+						'LV',
+						'LY',
+						'MA',
+						'MC',
+						'MD',
+						'ME',
+						'MF',
+						'MG',
+						'MK',
+						'ML',
+						'MM',
+						'MN',
+						'MO',
+						'MQ',
+						'MR',
+						'MS',
+						'MT',
+						'MU',
+						'MV',
+						'MW',
+						'MX',
+						'MY',
+						'MZ',
+						'NA',
+						'NC',
+						'NE',
+						'NG',
+						'NI',
+						'NL',
+						'NO',
+						'NP',
+						'NR',
+						'NU',
+						'NZ',
+						'OM',
+						'PA',
+						'PE',
+						'PF',
+						'PG',
+						'PH',
+						'PK',
+						'PL',
+						'PM',
+						'PN',
+						'PR',
+						'PS',
+						'PT',
+						'PY',
+						'QA',
+						'RE',
+						'RO',
+						'RS',
+						'RU',
+						'RW',
+						'SA',
+						'SB',
+						'SC',
+						'SE',
+						'SG',
+						'SH',
+						'SI',
+						'SJ',
+						'SK',
+						'SL',
+						'SM',
+						'SN',
+						'SO',
+						'SR',
+						'SS',
+						'ST',
+						'SV',
+						'SX',
+						'SZ',
+						'TA',
+						'TC',
+						'TD',
+						'TF',
+						'TG',
+						'TH',
+						'TJ',
+						'TK',
+						'TL',
+						'TM',
+						'TN',
+						'TO',
+						'TR',
+						'TT',
+						'TV',
+						'TW',
+						'TZ',
+						'UA',
+						'UG',
+						'US',
+						'UY',
+						'UZ',
+						'VA',
+						'VC',
+						'VE',
+						'VG',
+						'VN',
+						'VU',
+						'WF',
+						'WS',
+						'XK',
+						'YE',
+						'YT',
+						'ZA',
+						'ZM',
+						'ZW',
+						'ZZ',
+					],
+				},
+			})
+			.then(function (result) {
+				// If `redirectToCheckout` fails due to a browser or network
+				// error, display the localized error message to your customer
+				// using `result.error.message`.
+			})
 	},
 }
 pageTransition.setup()
@@ -324,9 +610,13 @@ let slider = {
 
 	actualizeVisibleIndexes() {
 		for (let i = 0; i < this.$indexes.length; i++) {
-			this.index === i ? gsap.to(this.$indexes[i], 0.5, { background: 'white' }) : gsap.to(this.$indexes[i], 0.5, { background: 'none' })
+			this.index === i
+				? gsap.to(this.$indexes[i], 0.5, { background: 'white' })
+				: gsap.to(this.$indexes[i], 0.5, { background: 'none' })
 		}
-		this.index === 3 ? gsap.to(this.$indexes[0], 0.5, { background: 'white' }) : null
+		this.index === 3
+			? gsap.to(this.$indexes[0], 0.5, { background: 'white' })
+			: null
 	},
 }
 slider.setup()
@@ -339,20 +629,18 @@ let shop = {
 	shippingPrice: 5,
 	totalPrice: 0,
 
-	$classicButtons: document.querySelectorAll('.prices .classic .numberSelector>span'),
-	$classicDigits: document.querySelectorAll('.prices .classic .numberSelector .number span'),
-	$collectorButtons: document.querySelectorAll('.prices .collector .numberSelector>span'),
-	$collectorDigits: document.querySelectorAll('.prices .collector .numberSelector .number span'),
-
-	$billClassicNumber: document.querySelector('.formOverlay .bill .normal .number span'),
-	$billCollectorNumber: document.querySelector('.formOverlay .bill .collector .number span'),
-	$billClassicPrice: document.querySelector('.formOverlay .bill .normal .price'),
-	$billCollectorPrice: document.querySelector('.formOverlay .bill .collector .price'),
-
-	$billShippingPrice: document.querySelector('.formOverlay .bill .shipping .price'),
-	$billTotal: document.querySelector('.formOverlay .bill .totalContainer .total'),
-	$shippingChoiceContainer: document.querySelector('.shippingChoiceContainer'),
-	$onlyForShipping: document.querySelectorAll('.onlyForShipping'),
+	$classicButtons: document.querySelectorAll(
+		'.prices .classic .numberSelector>span'
+	),
+	$classicDigits: document.querySelectorAll(
+		'.prices .classic .numberSelector .number span'
+	),
+	$collectorButtons: document.querySelectorAll(
+		'.prices .collector .numberSelector>span'
+	),
+	$collectorDigits: document.querySelectorAll(
+		'.prices .collector .numberSelector .number span'
+	),
 
 	setup() {
 		for (const _name of this.names) {
@@ -372,75 +660,21 @@ let shop = {
 				})
 			}
 		}
-		this.setupShippingChoiceEvents()
 	},
 
 	updateValue(direction, name) {
 		this[`${name}Number`] += 1 * direction
 		gsap.to(this[`$${name}Digits`][0], 0, { y: 0, opacity: 1 })
-		gsap.to(this[`$${name}Digits`][0], 0.3, { y: this.animationDistance * -1 * direction, opacity: 0 })
+		gsap.to(this[`$${name}Digits`][0], 0.3, {
+			y: this.animationDistance * -1 * direction,
+			opacity: 0,
+		})
 		this[`$${name}Digits`][1].innerHTML = this[`${name}Number`]
-		gsap.to(this[`$${name}Digits`][1], 0, { y: this.animationDistance * direction, opacity: 0 })
+		gsap.to(this[`$${name}Digits`][1], 0, {
+			y: this.animationDistance * direction,
+			opacity: 0,
+		})
 		gsap.to(this[`$${name}Digits`][1], 0.3, { y: 0, opacity: 1 })
-	},
-
-	setupBill() {
-		// Update numbers
-		this.$billClassicNumber.innerHTML = this.classicNumber
-		this.$billCollectorNumber.innerHTML = this.collectorNumber
-		// Update prices
-		this.$billClassicPrice.innerHTML = `${this.classicNumber * 28.75} €`
-		this.$billCollectorPrice.innerHTML = `${this.collectorNumber * 56} €`
-		this.totalPrice = this.classicNumber * 28.75 + this.collectorNumber * 56 + 5
-		this.$billTotal.innerHTML = `${this.totalPrice} €`
-
-		// Hide sipping choice if there is no collector
-		if (this.collectorNumber === 0) {
-			this.$shippingChoiceContainer.style.display = 'none'
-		}
-	},
-
-	setupShippingChoiceEvents() {
-		document.querySelector('.shippingChoiceContainer .shippingContainer input').addEventListener('click', () => {
-			this.updateShippingBill(5)
-		})
-		document.querySelector('.shippingChoiceContainer .handContainer input').addEventListener('click', () => {
-			this.updateShippingBill(0)
-		})
-	},
-
-	updateShippingBill(price) {
-		gsap.to(this, 0.7, {
-			shippingPrice: price,
-			onUpdate: () => {
-				this.$billShippingPrice.innerHTML = `${Math.ceil(this.shippingPrice)} €`
-			},
-		})
-		gsap.to(this, 0.7, {
-			totalPrice: this.classicNumber * 28.75 + this.collectorNumber * 56 + price,
-			onUpdate: () => {
-				this.$billTotal.innerHTML = `${Math.ceil(this.totalPrice)} €`
-			},
-		})
-
-		// Hide/display shipping inputs
-		for (const _element of this.$onlyForShipping) {
-			if (price === 0) {
-				gsap.to(_element, 0.7, {
-					opacity: 0,
-					onComplete: () => {
-						_element.style.display = 'none'
-					},
-				})
-			} else {
-				gsap.to(_element, 0.7, {
-					opacity: 1,
-					onComplete: () => {
-						_element.style.display = 'block'
-					},
-				})
-			}
-		}
 	},
 }
 shop.setup()
