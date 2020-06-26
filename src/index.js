@@ -179,7 +179,7 @@ let pageTransition = {
 		// Shop page apparition
 		this.shopApparition = gsap.timeline({ paused: true, defaultEase: Power2.easeInOut })
 		this.shopApparition.from('.shopOverlay .slider', 0.8, { opacity: 0, x: '-300px' })
-		this.shopApparition.from('.shopOverlay .title', 0.7, { opacity: 0, y: '200px' }, '-=0.7')
+		this.shopApparition.from('.shopOverlay .title', 0.7, { opacity: 0, y: '200px' }, '-=0.6')
 		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.6')
 		this.shopApparition.from('.shopOverlay .description .firstP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
 		this.shopApparition.from('.shopOverlay .description .secondP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
@@ -352,6 +352,7 @@ let shop = {
 	$billShippingPrice: document.querySelector('.formOverlay .bill .shipping .price'),
 	$billTotal: document.querySelector('.formOverlay .bill .totalContainer .total'),
 	$shippingChoiceContainer: document.querySelector('.shippingChoiceContainer'),
+	$onlyForShipping: document.querySelectorAll('.onlyForShipping'),
 
 	setup() {
 		for (const _name of this.names) {
@@ -421,6 +422,25 @@ let shop = {
 				this.$billTotal.innerHTML = `${Math.ceil(this.totalPrice)} €`
 			},
 		})
+
+		// Hide/display shipping inputs
+		for (const _element of this.$onlyForShipping) {
+			if (price === 0) {
+				gsap.to(_element, 0.7, {
+					opacity: 0,
+					onComplete: () => {
+						_element.style.display = 'none'
+					},
+				})
+			} else {
+				gsap.to(_element, 0.7, {
+					opacity: 1,
+					onComplete: () => {
+						_element.style.display = 'block'
+					},
+				})
+			}
+		}
 	},
 }
 shop.setup()
