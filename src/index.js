@@ -11,6 +11,14 @@ let stripe = Stripe(
 
 const P5 = new p5(s)
 
+// Display success overlay if the payment is successful
+const splitUrl = window.location.href.split('#')
+console.log(splitUrl[splitUrl.length - 1])
+if (splitUrl[splitUrl.length - 1] === 'success') {
+	console.log('hey')
+	document.querySelector('.successOverlay').style.display = 'flex'
+}
+
 // P5 Init
 let lines = []
 let canvas = null
@@ -316,12 +324,16 @@ let pageTransition = {
 				quantity: shop.collectorNumber,
 			})
 		}
+		items.push({
+			price: 'price_1GyRXnLdNkflxGiPcmMiyQJI',
+			quantity: 1,
+		})
 		stripe
 			.redirectToCheckout({
 				lineItems: items,
 				mode: 'payment',
-				successUrl: 'https://example.com/success',
-				cancelUrl: 'https://example.com/cancel',
+				successUrl: `${window.location.href}#success`,
+				cancelUrl: window.location.href,
 				shippingAddressCollection: {
 					allowedCountries: [
 						'AC',

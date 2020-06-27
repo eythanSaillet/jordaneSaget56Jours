@@ -212,6 +212,22 @@ body {
 	}
 }
 
+.successOverlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	background: var(--backgroundColor);
+	p {
+		font-family: 'Brooke Smith Script';
+		font-size: 150px;
+	}
+}
+
 @font-face {
 	font-family: 'Brooke Smith Script';
 	src: url('../assets/fonts/brooke_smith_script/brooke_smith_script.ttf');
