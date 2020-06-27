@@ -15,7 +15,7 @@ body {
 	position: fixed;
 	top: 0;
 	width: 100vw;
-	height: 100vh;
+	height: 100%;
 	display: block;
 }
 
@@ -172,6 +172,7 @@ body {
 					position: relative;
 					display: flex;
 					justify-content: space-between;
+					align-items: center;
 					width: 100%;
 					.numberSelector {
 						position: absolute;
@@ -242,16 +243,53 @@ body {
 	src: url('../assets/fonts/montserrat/montserrat_regular.ttf');
 }
 
-// @media only screen and (max-height: 700px) {
-// 	.shopOverlay {
-// 		.book {
-// 			.infos {
-// 				.description {
-// 					p {
-// 						font-size: 0.7em;
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// }
+@media only screen and (max-width: 900px) {
+	.shopOverlay {
+		height: auto;
+		position: relative;
+		.title {
+			h1 {
+				font-size: 15vw;
+			}
+		}
+		.book {
+			align-items: center;
+			flex-direction: column;
+			.slider {
+				width: auto;
+				height: auto;
+				margin: 320px 0 80px 0;
+				pointer-events: none;
+				.imageContainer {
+					width: 50vw;
+					height: auto;
+					img:nth-child(n + 2) {
+						display: none;
+					}
+				}
+				.sliderIndexesContainer {
+					display: none;
+				}
+			}
+			.infos {
+				width: 80%;
+				.buyButtonContainer {
+					margin: 25px 0 80px 0;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.book {
+		.infos {
+			.prices > div {
+				& > span,
+				.price {
+					font-size: 0.7em;
+				}
+			}
+		}
+	}
+}

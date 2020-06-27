@@ -282,9 +282,13 @@ let pageTransition = {
 		this.isLaunched = true
 
 		// Animate width and height only to keep the same border weight
+		let diameter =
+			window.innerWidth > window.innerHeight
+				? window.innerWidth
+				: window.innerHeight
 		gsap.to(this.$canvasbutton, 1.5, {
-			width: window.innerWidth * 1.5,
-			height: window.innerWidth * 1.5,
+			width: diameter * 1.5,
+			height: diameter * 1.5,
 			ease: Power2.easeIn,
 			// then stop the line
 			onComplete: () => {
