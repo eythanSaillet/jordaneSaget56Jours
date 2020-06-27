@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
 	mode: 'development',
-	// devtool: 'source-map',
+	devtool: 'source-map',
 	devServer: {
 		contentBase: './dist',
 		open: true,
@@ -23,7 +23,6 @@ module.exports = {
 		new MiniCssExtractPlugin(),
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, '../src/index.html'),
-			inject: 'head',
 		}),
 		new CopyWebpackPlugin([{ from: 'static' }]),
 	],
