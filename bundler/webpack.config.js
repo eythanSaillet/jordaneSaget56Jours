@@ -20,10 +20,10 @@ module.exports = {
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin(),
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, '../src/index.html'),
 		}),
-		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin([{ from: 'static' }]),
 	],
 	module: {
@@ -33,13 +33,13 @@ module.exports = {
 				use: ['html-loader'],
 			},
 			{
+				test: /\.scss$/i,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
+			},
+			{
 				test: /\.js$/,
 				exclude: /node_modules/, // ?? necéssaire ?? //
 				use: ['babel-loader'],
-			},
-			{
-				test: /\.scss$/i,
-				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,

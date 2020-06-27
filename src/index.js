@@ -1,6 +1,6 @@
 import './style/main.scss'
 
-import * as p5 from 'p5'
+import p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/bookCover.jpg'
@@ -251,21 +251,21 @@ let pageTransition = {
 		)
 		this.shopApparition.from(
 			'.shopOverlay .prices .classic',
-			0.5,
+			0.45,
 			{ opacity: 0, x: '100px' },
 			'-=0.4'
 		)
 		this.shopApparition.from(
 			'.shopOverlay .prices .collector',
-			0.5,
+			0.45,
 			{ opacity: 0, x: '100px' },
-			'-=0.4'
+			'-=0.35'
 		)
 		this.shopApparition.from(
 			'.shopOverlay .buyButtonContainer .button',
-			0.5,
-			{ opacity: 0, y: '100px' },
-			'-=0.4'
+			0.45,
+			{ opacity: 0, y: '80px' },
+			'-=0.35'
 		)
 	},
 
