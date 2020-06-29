@@ -5,17 +5,13 @@ import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/bookCover.jpg'
 
-let stripe = Stripe(
-	'pk_test_51GueT4LdNkflxGiPwZzoMXuxQLG13G7RXRvvCAjk7YWhVW1anAKjkJt0mdBeI02uX6kWafb51RmcTH2gYiRp4fxE00t0elrAF9'
-)
+let stripe = Stripe('pk_test_51GueT4LdNkflxGiPwZzoMXuxQLG13G7RXRvvCAjk7YWhVW1anAKjkJt0mdBeI02uX6kWafb51RmcTH2gYiRp4fxE00t0elrAF9')
 
 const P5 = new p5(s)
 
 // Display success overlay if the payment is successful
 const splitUrl = window.location.href.split('#')
-console.log(splitUrl[splitUrl.length - 1])
 if (splitUrl[splitUrl.length - 1] === 'success') {
-	console.log('hey')
 	document.querySelector('.successOverlay').style.display = 'flex'
 }
 
@@ -24,9 +20,7 @@ let lines = []
 let canvas = null
 function s(sk) {
 	sk.setup = () => {
-		canvas = sk
-			.createCanvas(window.innerWidth, window.innerHeight)
-			.parent('canvasContainer')
+		canvas = sk.createCanvas(window.innerWidth, window.innerHeight).parent('canvasContainer')
 		sk.background(10)
 		sk.frameRate(60)
 		sk.angleMode(sk.DEGREES)
@@ -106,28 +100,12 @@ class Line {
 		P5.stroke('#070707')
 
 		// Background right line
-		this.bgRightPos = P5.createVector(
-			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2 / 2,
-			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2 / 2
-		)
-		P5.line(
-			this.bgRightPos.x,
-			this.bgRightPos.y,
-			this.bgRightOldPos.x,
-			this.bgRightOldPos.y
-		)
+		this.bgRightPos = P5.createVector(this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2 / 2, this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2 / 2)
+		P5.line(this.bgRightPos.x, this.bgRightPos.y, this.bgRightOldPos.x, this.bgRightOldPos.y)
 		this.bgRightOldPos = this.bgRightPos
 		// Background left line
-		this.bgLeftPos = P5.createVector(
-			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2 / 2,
-			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2 / 2
-		)
-		P5.line(
-			this.bgLeftPos.x,
-			this.bgLeftPos.y,
-			this.bgLeftOldPos.x,
-			this.bgLeftOldPos.y
-		)
+		this.bgLeftPos = P5.createVector(this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2 / 2, this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2 / 2)
+		P5.line(this.bgLeftPos.x, this.bgLeftPos.y, this.bgLeftOldPos.x, this.bgLeftOldPos.y)
 		this.bgLeftOldPos = this.bgLeftPos
 
 		// Front lines style
@@ -141,28 +119,12 @@ class Line {
 
 		// Sides line
 		// Right side line
-		this.rightPos = P5.createVector(
-			this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2,
-			this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2
-		)
-		P5.line(
-			this.rightPos.x,
-			this.rightPos.y,
-			this.rightOldPos.x,
-			this.rightOldPos.y
-		)
+		this.rightPos = P5.createVector(this.pos.x + (P5.cos(angle - 90) * this.lineWeight) / 2, this.pos.y + (P5.sin(angle - 90) * this.lineWeight) / 2)
+		P5.line(this.rightPos.x, this.rightPos.y, this.rightOldPos.x, this.rightOldPos.y)
 		this.rightOldPos = this.rightPos
 		// Left side line
-		this.leftPos = P5.createVector(
-			this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2,
-			this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2
-		)
-		P5.line(
-			this.leftPos.x,
-			this.leftPos.y,
-			this.leftOldPos.x,
-			this.leftOldPos.y
-		)
+		this.leftPos = P5.createVector(this.pos.x + (P5.cos(angle + 90) * this.lineWeight) / 2, this.pos.y + (P5.sin(angle + 90) * this.lineWeight) / 2)
+		P5.line(this.leftPos.x, this.leftPos.y, this.leftOldPos.x, this.leftOldPos.y)
 		this.leftOldPos = this.leftPos
 	}
 }
@@ -173,6 +135,7 @@ let pageTransition = {
 	$canvasbuttonText: document.querySelector('.buttonContainer p'),
 	$shopOverlay: document.querySelector('.shopOverlay'),
 	$buyButton: document.querySelector('.shopOverlay .button'),
+	$shippingChoiceCheckBox: document.querySelector('.shopOverlay .buyButtonContainer input'),
 
 	isLaunched: false,
 	shopApparition: null,
@@ -190,17 +153,13 @@ let pageTransition = {
 
 		// Canvas button hover animation
 		this.$canvasbutton.addEventListener('mouseenter', () => {
-			this.isLaunched === false
-				? gsap.to(this.$canvasbutton, 0.3, { width: 130, height: 130 })
-				: null
+			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 130, height: 130 }) : null
 		})
 		this.$canvasbutton.addEventListener('mouseleave', () => {
-			this.isLaunched === false
-				? gsap.to(this.$canvasbutton, 0.3, { width: 120, height: 120 })
-				: null
+			this.isLaunched === false ? gsap.to(this.$canvasbutton, 0.3, { width: 120, height: 120 }) : null
 		})
 
-		// Buy button => form page
+		// Go to payment page on buy button click
 		this.$buyButton.addEventListener('click', () => {
 			this.goToPayment()
 		})
@@ -219,54 +178,15 @@ let pageTransition = {
 			opacity: 0,
 			x: '-300px',
 		})
-		this.shopApparition.from(
-			'.shopOverlay .title',
-			0.7,
-			{ opacity: 0, y: '200px' },
-			'-=0.6'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .description h2',
-			0.5,
-			{ opacity: 0, y: '100px' },
-			'-=0.6'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .description .firstP',
-			0.5,
-			{ opacity: 0, y: '100px' },
-			'-=0.4'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .description .secondP',
-			0.5,
-			{ opacity: 0, y: '100px' },
-			'-=0.4'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .description .subtext',
-			0.5,
-			{ opacity: 0, y: '100px' },
-			'-=0.4'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .prices .classic',
-			0.45,
-			{ opacity: 0, x: '100px' },
-			'-=0.4'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .prices .collector',
-			0.45,
-			{ opacity: 0, x: '100px' },
-			'-=0.35'
-		)
-		this.shopApparition.from(
-			'.shopOverlay .buyButtonContainer .button',
-			0.45,
-			{ opacity: 0, y: '80px' },
-			'-=0.35'
-		)
+		this.shopApparition.from('.shopOverlay .title', 0.7, { opacity: 0, y: '200px' }, '-=0.6')
+		this.shopApparition.from('.shopOverlay .description h2', 0.5, { opacity: 0, y: '100px' }, '-=0.6')
+		this.shopApparition.from('.shopOverlay .description .firstP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .description .secondP', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .description .subtext', 0.5, { opacity: 0, y: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .prices .classic', 0.45, { opacity: 0, x: '100px' }, '-=0.4')
+		this.shopApparition.from('.shopOverlay .prices .collector', 0.45, { opacity: 0, x: '100px' }, '-=0.35')
+		this.shopApparition.from('.shopOverlay .buyButtonContainer .shippingChoice', 0.45, { opacity: 0, y: '80px' }, '-=0.35')
+		this.shopApparition.from('.shopOverlay .buyButtonContainer .button', 0.45, { opacity: 0, y: '80px' }, '-=0.35')
 	},
 
 	// Display button after a delay
@@ -282,10 +202,7 @@ let pageTransition = {
 		this.isLaunched = true
 
 		// Animate width and height only to keep the same border weight
-		let diameter =
-			window.innerWidth > window.innerHeight
-				? window.innerWidth
-				: window.innerHeight
+		let diameter = window.innerWidth > window.innerHeight ? window.innerWidth : window.innerHeight
 		gsap.to(this.$canvasbutton, 1.5, {
 			width: diameter * 1.5,
 			height: diameter * 1.5,
@@ -328,264 +245,271 @@ let pageTransition = {
 				quantity: shop.collectorNumber,
 			})
 		}
-		items.push({
-			price: 'price_1GyRXnLdNkflxGiPcmMiyQJI',
-			quantity: 1,
-		})
+		let paymentInfo
+		if (!pageTransition.$shippingChoiceCheckBox.checked) {
+			items.push({
+				price: 'price_1GyRXnLdNkflxGiPcmMiyQJI',
+				quantity: 1,
+			})
+			paymentInfo = {
+				lineItems: items,
+				mode: 'payment',
+				successUrl: `${window.location.href}#success`,
+				cancelUrl: window.location.href,
+				shippingAddressCollection: {
+					allowedCountries: [
+						'AC',
+						'AD',
+						'AE',
+						'AF',
+						'AG',
+						'AI',
+						'AL',
+						'AM',
+						'AO',
+						'AQ',
+						'AR',
+						'AT',
+						'AU',
+						'AW',
+						'AX',
+						'AZ',
+						'BA',
+						'BB',
+						'BD',
+						'BE',
+						'BF',
+						'BG',
+						'BH',
+						'BI',
+						'BJ',
+						'BL',
+						'BM',
+						'BN',
+						'BO',
+						'BQ',
+						'BR',
+						'BS',
+						'BT',
+						'BV',
+						'BW',
+						'BY',
+						'BZ',
+						'CA',
+						'CD',
+						'CF',
+						'CG',
+						'CH',
+						'CI',
+						'CK',
+						'CL',
+						'CM',
+						'CN',
+						'CO',
+						'CR',
+						'CV',
+						'CW',
+						'CY',
+						'CZ',
+						'DE',
+						'DJ',
+						'DK',
+						'DM',
+						'DO',
+						'DZ',
+						'EC',
+						'EE',
+						'EG',
+						'EH',
+						'ER',
+						'ES',
+						'ET',
+						'FI',
+						'FJ',
+						'FK',
+						'FO',
+						'FR',
+						'GA',
+						'GB',
+						'GD',
+						'GE',
+						'GF',
+						'GG',
+						'GH',
+						'GI',
+						'GL',
+						'GM',
+						'GN',
+						'GP',
+						'GQ',
+						'GR',
+						'GS',
+						'GT',
+						'GU',
+						'GW',
+						'GY',
+						'HK',
+						'HN',
+						'HR',
+						'HT',
+						'HU',
+						'ID',
+						'IE',
+						'IL',
+						'IM',
+						'IN',
+						'IO',
+						'IQ',
+						'IS',
+						'IT',
+						'JE',
+						'JM',
+						'JO',
+						'JP',
+						'KE',
+						'KG',
+						'KH',
+						'KI',
+						'KM',
+						'KN',
+						'KR',
+						'KW',
+						'KY',
+						'KZ',
+						'LA',
+						'LB',
+						'LC',
+						'LI',
+						'LK',
+						'LR',
+						'LS',
+						'LT',
+						'LU',
+						'LV',
+						'LY',
+						'MA',
+						'MC',
+						'MD',
+						'ME',
+						'MF',
+						'MG',
+						'MK',
+						'ML',
+						'MM',
+						'MN',
+						'MO',
+						'MQ',
+						'MR',
+						'MS',
+						'MT',
+						'MU',
+						'MV',
+						'MW',
+						'MX',
+						'MY',
+						'MZ',
+						'NA',
+						'NC',
+						'NE',
+						'NG',
+						'NI',
+						'NL',
+						'NO',
+						'NP',
+						'NR',
+						'NU',
+						'NZ',
+						'OM',
+						'PA',
+						'PE',
+						'PF',
+						'PG',
+						'PH',
+						'PK',
+						'PL',
+						'PM',
+						'PN',
+						'PR',
+						'PS',
+						'PT',
+						'PY',
+						'QA',
+						'RE',
+						'RO',
+						'RS',
+						'RU',
+						'RW',
+						'SA',
+						'SB',
+						'SC',
+						'SE',
+						'SG',
+						'SH',
+						'SI',
+						'SJ',
+						'SK',
+						'SL',
+						'SM',
+						'SN',
+						'SO',
+						'SR',
+						'SS',
+						'ST',
+						'SV',
+						'SX',
+						'SZ',
+						'TA',
+						'TC',
+						'TD',
+						'TF',
+						'TG',
+						'TH',
+						'TJ',
+						'TK',
+						'TL',
+						'TM',
+						'TN',
+						'TO',
+						'TR',
+						'TT',
+						'TV',
+						'TW',
+						'TZ',
+						'UA',
+						'UG',
+						'US',
+						'UY',
+						'UZ',
+						'VA',
+						'VC',
+						'VE',
+						'VG',
+						'VN',
+						'VU',
+						'WF',
+						'WS',
+						'XK',
+						'YE',
+						'YT',
+						'ZA',
+						'ZM',
+						'ZW',
+						'ZZ',
+					],
+				},
+			}
+		} else {
+			paymentInfo = {
+				lineItems: items,
+				mode: 'payment',
+				successUrl: `${window.location.href}#success`,
+				cancelUrl: window.location.href,
+			}
+		}
 		if (shop.classicNumber !== 0 || shop.collectorNumber != 0) {
-			stripe
-				.redirectToCheckout({
-					lineItems: items,
-					mode: 'payment',
-					successUrl: `${window.location.href}#success`,
-					cancelUrl: window.location.href,
-					shippingAddressCollection: {
-						allowedCountries: [
-							'AC',
-							'AD',
-							'AE',
-							'AF',
-							'AG',
-							'AI',
-							'AL',
-							'AM',
-							'AO',
-							'AQ',
-							'AR',
-							'AT',
-							'AU',
-							'AW',
-							'AX',
-							'AZ',
-							'BA',
-							'BB',
-							'BD',
-							'BE',
-							'BF',
-							'BG',
-							'BH',
-							'BI',
-							'BJ',
-							'BL',
-							'BM',
-							'BN',
-							'BO',
-							'BQ',
-							'BR',
-							'BS',
-							'BT',
-							'BV',
-							'BW',
-							'BY',
-							'BZ',
-							'CA',
-							'CD',
-							'CF',
-							'CG',
-							'CH',
-							'CI',
-							'CK',
-							'CL',
-							'CM',
-							'CN',
-							'CO',
-							'CR',
-							'CV',
-							'CW',
-							'CY',
-							'CZ',
-							'DE',
-							'DJ',
-							'DK',
-							'DM',
-							'DO',
-							'DZ',
-							'EC',
-							'EE',
-							'EG',
-							'EH',
-							'ER',
-							'ES',
-							'ET',
-							'FI',
-							'FJ',
-							'FK',
-							'FO',
-							'FR',
-							'GA',
-							'GB',
-							'GD',
-							'GE',
-							'GF',
-							'GG',
-							'GH',
-							'GI',
-							'GL',
-							'GM',
-							'GN',
-							'GP',
-							'GQ',
-							'GR',
-							'GS',
-							'GT',
-							'GU',
-							'GW',
-							'GY',
-							'HK',
-							'HN',
-							'HR',
-							'HT',
-							'HU',
-							'ID',
-							'IE',
-							'IL',
-							'IM',
-							'IN',
-							'IO',
-							'IQ',
-							'IS',
-							'IT',
-							'JE',
-							'JM',
-							'JO',
-							'JP',
-							'KE',
-							'KG',
-							'KH',
-							'KI',
-							'KM',
-							'KN',
-							'KR',
-							'KW',
-							'KY',
-							'KZ',
-							'LA',
-							'LB',
-							'LC',
-							'LI',
-							'LK',
-							'LR',
-							'LS',
-							'LT',
-							'LU',
-							'LV',
-							'LY',
-							'MA',
-							'MC',
-							'MD',
-							'ME',
-							'MF',
-							'MG',
-							'MK',
-							'ML',
-							'MM',
-							'MN',
-							'MO',
-							'MQ',
-							'MR',
-							'MS',
-							'MT',
-							'MU',
-							'MV',
-							'MW',
-							'MX',
-							'MY',
-							'MZ',
-							'NA',
-							'NC',
-							'NE',
-							'NG',
-							'NI',
-							'NL',
-							'NO',
-							'NP',
-							'NR',
-							'NU',
-							'NZ',
-							'OM',
-							'PA',
-							'PE',
-							'PF',
-							'PG',
-							'PH',
-							'PK',
-							'PL',
-							'PM',
-							'PN',
-							'PR',
-							'PS',
-							'PT',
-							'PY',
-							'QA',
-							'RE',
-							'RO',
-							'RS',
-							'RU',
-							'RW',
-							'SA',
-							'SB',
-							'SC',
-							'SE',
-							'SG',
-							'SH',
-							'SI',
-							'SJ',
-							'SK',
-							'SL',
-							'SM',
-							'SN',
-							'SO',
-							'SR',
-							'SS',
-							'ST',
-							'SV',
-							'SX',
-							'SZ',
-							'TA',
-							'TC',
-							'TD',
-							'TF',
-							'TG',
-							'TH',
-							'TJ',
-							'TK',
-							'TL',
-							'TM',
-							'TN',
-							'TO',
-							'TR',
-							'TT',
-							'TV',
-							'TW',
-							'TZ',
-							'UA',
-							'UG',
-							'US',
-							'UY',
-							'UZ',
-							'VA',
-							'VC',
-							'VE',
-							'VG',
-							'VN',
-							'VU',
-							'WF',
-							'WS',
-							'XK',
-							'YE',
-							'YT',
-							'ZA',
-							'ZM',
-							'ZW',
-							'ZZ',
-						],
-					},
-				})
-				.then(function (result) {
-					// If `redirectToCheckout` fails due to a browser or network
-					// error, display the localized error message to your customer
-					// using `result.error.message`.
-				})
+			stripe.redirectToCheckout(paymentInfo).then(function (result) {
+				alert('Il y a une erreur : ' + result.error.message)
+			})
 		}
 	},
 }
@@ -613,7 +537,7 @@ let slider = {
 			this.index === 3 ? (this.index = 1) : this.index++
 			for (const _image of this.$images) {
 				gsap.to(_image, 0.8, {
-					x: `-${100 * this.index}%`,
+					x: `-${100.1 * this.index}%`,
 					ease: Power2.easeInOut,
 					onComplete: () => {
 						this.canSlide = true
@@ -628,13 +552,9 @@ let slider = {
 
 	actualizeVisibleIndexes() {
 		for (let i = 0; i < this.$indexes.length; i++) {
-			this.index === i
-				? gsap.to(this.$indexes[i], 0.5, { background: 'white' })
-				: gsap.to(this.$indexes[i], 0.5, { background: 'none' })
+			this.index === i ? gsap.to(this.$indexes[i], 0.5, { background: 'white' }) : gsap.to(this.$indexes[i], 0.5, { background: 'none' })
 		}
-		this.index === 3
-			? gsap.to(this.$indexes[0], 0.5, { background: 'white' })
-			: null
+		this.index === 3 ? gsap.to(this.$indexes[0], 0.5, { background: 'white' }) : null
 	},
 }
 slider.setup()
@@ -647,20 +567,14 @@ let shop = {
 	shippingPrice: 5,
 	totalPrice: 0,
 
-	$classicButtons: document.querySelectorAll(
-		'.prices .classic .numberSelector>span'
-	),
-	$classicDigits: document.querySelectorAll(
-		'.prices .classic .numberSelector .number span'
-	),
-	$collectorButtons: document.querySelectorAll(
-		'.prices .collector .numberSelector>span'
-	),
-	$collectorDigits: document.querySelectorAll(
-		'.prices .collector .numberSelector .number span'
-	),
+	$classicButtons: document.querySelectorAll('.prices .classic .numberSelector>span'),
+	$classicDigits: document.querySelectorAll('.prices .classic .numberSelector .number span'),
+	$collectorButtons: document.querySelectorAll('.prices .collector .numberSelector>span'),
+	$collectorDigits: document.querySelectorAll('.prices .collector .numberSelector .number span'),
 
 	setup() {
+		// Set shipping checkbox basic state
+
 		for (const _name of this.names) {
 			this[`$${_name}Digits`][0].innerHTML = this[`${_name}Number`]
 			this[`$${_name}Digits`][1].innerHTML = this[`${_name}Number`]
@@ -669,11 +583,21 @@ let shop = {
 					if (_button.className === 'less') {
 						if (this[`${_name}Number`] > 0) {
 							this.updateValue(-1, _name)
+							// Disable hand delivery checkbox when there is no collector
+							if (_name === 'collector' && this.collectorNumber === 0) {
+								pageTransition.shipping = true
+								pageTransition.$shippingChoiceCheckBox.disabled = true
+								pageTransition.$shippingChoiceCheckBox.checked = false
+							}
 						}
 					} else if (_button.className === 'more') {
 						if (this[`${_name}Number`] < 10) {
 							this.updateValue(1, _name)
 						}
+					}
+					// Enable hand delivery checkbox when there is at least 1 collector
+					if (_name === 'collector' && this.collectorNumber === 1) {
+						pageTransition.$shippingChoiceCheckBox.disabled = false
 					}
 				})
 			}

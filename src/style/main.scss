@@ -7,7 +7,6 @@ body {
 	color: white;
 	font-family: 'Montserrat Regular';
 	margin: 0;
-	// overflow-x: hidden;
 }
 
 // Mobile full screen
@@ -41,7 +40,6 @@ body {
 	left: 0;
 	overflow: hidden;
 	pointer-events: none;
-	// display: none;
 	.button {
 		width: 120px;
 		height: 120px;
@@ -54,7 +52,6 @@ body {
 		border-radius: 50%;
 		box-shadow: 0px 0px 30px 3px var(--backgroundColor);
 		cursor: pointer;
-		// pointer-events: none;
 		will-change: width, height;
 		opacity: 0;
 	}
@@ -202,8 +199,31 @@ body {
 			.buyButtonContainer {
 				height: 20%;
 				display: flex;
-				justify-content: center;
+				justify-content: space-between;
 				align-items: center;
+				margin-top: 1.5vh;
+				.shippingChoice {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					width: 40%;
+					.text {
+						display: flex;
+						flex-direction: column;
+						span {
+							font-family: 'Montserrat Regular';
+							letter-spacing: normal;
+						}
+						span:first-child {
+							font-size: 0.9em;
+							margin-bottom: 3px;
+						}
+						span:last-child {
+							font-size: 0.7em;
+							color: #8e8e8e;
+						}
+					}
+				}
 				.button {
 					padding: 10px 25px;
 					border: solid white 1px;
@@ -221,12 +241,18 @@ body {
 	top: 0;
 	left: 0;
 	display: none;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background: var(--backgroundColor);
-	p {
+	span {
 		font-family: 'Brooke Smith Script';
-		font-size: 150px;
+		font-size: 10em;
+	}
+	p {
+		margin: 20px 20px;
+		font-size: 1em;
+		text-align: center;
 	}
 }
 
@@ -282,12 +308,21 @@ body {
 }
 
 @media only screen and (max-width: 500px) {
-	.book {
-		.infos {
-			.prices > div {
-				& > span,
-				.price {
-					font-size: 0.7em;
+	.shopOverlay {
+		.book {
+			.infos {
+				.prices > div {
+					& > span,
+					.price {
+						font-size: 0.7em;
+					}
+				}
+				.buyButtonContainer {
+					height: 25%;
+					flex-direction: column;
+					.shippingChoice {
+						width: 100%;
+					}
 				}
 			}
 		}
