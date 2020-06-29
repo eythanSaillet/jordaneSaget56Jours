@@ -168,14 +168,14 @@ body {
 				> div {
 					position: relative;
 					display: flex;
-					justify-content: space-between;
+					justify-content: flex-start;
 					align-items: center;
 					width: 100%;
 					.numberSelector {
 						position: absolute;
 						top: 50%;
-						left: 50%;
-						transform: translate(-50%, -50%);
+						right: 0;
+						transform: translate(0, -50%);
 						display: flex;
 						user-select: none;
 						span {
@@ -195,15 +195,20 @@ body {
 						}
 					}
 				}
+				.price {
+					position: absolute;
+					top: 0;
+					left: 30%;
+				}
 			}
 			.buyButtonContainer {
 				height: 20%;
 				display: flex;
-				justify-content: space-between;
+				justify-content: flex-end;
 				align-items: center;
 				margin-top: 1.5vh;
 				.shippingChoice {
-					display: flex;
+					display: none;
 					justify-content: space-between;
 					align-items: center;
 					width: 40%;
@@ -249,11 +254,6 @@ body {
 		font-family: 'Brooke Smith Script';
 		font-size: 10em;
 	}
-	p {
-		margin: 20px 20px;
-		font-size: 1em;
-		text-align: center;
-	}
 }
 
 @font-face {
@@ -281,6 +281,15 @@ body {
 		.book {
 			align-items: center;
 			flex-direction: column;
+			.infos {
+				.prices {
+					margin-top: 4vh;
+					height: 11%;
+					.price {
+						left: 45%;
+					}
+				}
+			}
 			.slider {
 				width: auto;
 				height: auto;
@@ -300,7 +309,8 @@ body {
 			.infos {
 				width: 80%;
 				.buyButtonContainer {
-					margin: 25px 0 80px 0;
+					justify-content: flex-start;
+					margin: 25px 0 5vh 0;
 				}
 			}
 		}
