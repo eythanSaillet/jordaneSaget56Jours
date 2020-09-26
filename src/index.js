@@ -247,21 +247,28 @@ let pageTransition = {
 		}
 		// Define shipping price
 		let shippingPrice
+		// if (shop.collectorNumber + shop.classicNumber === 1) {
+		// 	// 4,95
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP0b1G9Yll'
+		// } else if (shop.collectorNumber + shop.classicNumber === 2) {
+		// 	// 6,35
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiPkhRvar1J'
+		// } else if (shop.collectorNumber + shop.classicNumber === 3) {
+		// 	// 7,25
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiPB9UJXyeV'
+		// } else if (shop.collectorNumber + shop.classicNumber === 4) {
+		// 	// 7,95
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiPuYOOhasI'
+		// } else if (shop.collectorNumber + shop.classicNumber < 9) {
+		// 	// 8,95
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiPCWwwCGJC'
+		// } else {
+		// 	// 13,75
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP7Fjz4NBD'
+		// }
 		if (shop.collectorNumber + shop.classicNumber === 1) {
-			// 4,95
-			shippingPrice = 'price_1GzSVBLdNkflxGiP0b1G9Yll'
-		} else if (shop.collectorNumber + shop.classicNumber === 2) {
-			// 6,35
-			shippingPrice = 'price_1GzSVBLdNkflxGiPkhRvar1J'
-		} else if (shop.collectorNumber + shop.classicNumber === 3) {
-			// 7,25
-			shippingPrice = 'price_1GzSVBLdNkflxGiPB9UJXyeV'
-		} else if (shop.collectorNumber + shop.classicNumber === 4) {
 			// 7,95
 			shippingPrice = 'price_1GzSVBLdNkflxGiPuYOOhasI'
-		} else if (shop.collectorNumber + shop.classicNumber < 9) {
-			// 8,95
-			shippingPrice = 'price_1GzSVBLdNkflxGiPCWwwCGJC'
 		} else {
 			// 13,75
 			shippingPrice = 'price_1GzSVBLdNkflxGiP7Fjz4NBD'
@@ -574,7 +581,8 @@ let shop = {
 	classicNumber: 0,
 	collectorNumber: 1,
 	animationDistance: 25,
-	names: ['classic', 'collector'],
+	// names: ['classic', 'collector'],
+	names: ['collector'],
 	shippingPrice: 5,
 	totalPrice: 0,
 
