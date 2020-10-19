@@ -235,13 +235,13 @@ let pageTransition = {
 		let items = []
 		if (shop.classicNumber > 0) {
 			items.push({
-				price: 'price_1GzSVLLdNkflxGiPv6WC60aS',
+				price: 'price_1HddAcLdNkflxGiP1SSjt5Cy',
 				quantity: shop.classicNumber,
 			})
 		}
 		if (shop.collectorNumber > 0) {
 			items.push({
-				price: 'price_1GzSVLLdNkflxGiP7W7D5V9F',
+				price: 'price_1HddAqLdNkflxGiPAWnkblGX',
 				quantity: shop.collectorNumber,
 			})
 		}
@@ -581,8 +581,8 @@ let shop = {
 	classicNumber: 0,
 	collectorNumber: 1,
 	animationDistance: 25,
-	// names: ['classic', 'collector'],
-	names: ['collector'],
+	names: ['classic', 'collector'],
+	// names: ['collector'],
 	shippingPrice: 5,
 	totalPrice: 0,
 
