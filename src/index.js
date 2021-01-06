@@ -3,9 +3,9 @@ import './style/main.scss'
 import p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
-import bookCover from './assets/images/bookCover.jpg'
+import bookCover from './assets/images/lithographie1.jpg'
 
-let stripe = Stripe('pk_live_51GueT4LdNkflxGiPuZblOzlQm64ssaJoT9YRO2vQIbiButRZQ35DHji6O5M3Lic5GnKJjytLudkb8yrnqO94gL9l00ObFrEYMy')
+let stripe = Stripe('pk_test_51Gudg1Ie0KUcqb1Ji3LAC1ktF4EupGPw0wC43xm9NzQQB0yQCssnjuPsYsw3XklUqSw1yye2A5BukoJcgSMtT9Kj00llWnqmAo')
 
 const P5 = new p5(s)
 
@@ -233,20 +233,24 @@ let pageTransition = {
 
 	goToPayment() {
 		let items = []
-		if (shop.classicNumber > 0) {
+		if (shop.classicNumber >= 0) {
+			shop.classicNumber === 0 ? (shop.classicNumber = 1) : null
 			items.push({
-				price: 'price_1HddAcLdNkflxGiP1SSjt5Cy',
+				price: 'price_1I6axwIe0KUcqb1JI99kQDGR',
 				quantity: shop.classicNumber,
 			})
 		}
-		if (shop.collectorNumber > 0) {
-			items.push({
-				price: 'price_1HddAqLdNkflxGiPAWnkblGX',
-				quantity: shop.collectorNumber,
-			})
-		}
+		// if (shop.collectorNumber > 0) {
+		// 	items.push({
+		// 		price: 'price_1HddAqLdNkflxGiPAWnkblGX',
+		// 		quantity: shop.collectorNumber,
+		// 	})
+		// }
 		// Define shipping price
-		let shippingPrice
+		// let shippingPrice
+		if (document.querySelector('#shippingCheckbox').checked) {
+			items.push({ price: 'price_1I6ayBIe0KUcqb1JYO0pVZRC', quantity: 1 })
+		}
 		// if (shop.collectorNumber + shop.classicNumber === 1) {
 		// 	// 4,95
 		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP0b1G9Yll'
@@ -266,264 +270,28 @@ let pageTransition = {
 		// 	// 13,75
 		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP7Fjz4NBD'
 		// }
-		if (shop.collectorNumber + shop.classicNumber === 1) {
-			// 7,95
-			shippingPrice = 'price_1GzSVBLdNkflxGiPuYOOhasI'
-		} else {
-			// 13,75
-			shippingPrice = 'price_1GzSVBLdNkflxGiP7Fjz4NBD'
-		}
-		items.push({
-			price: shippingPrice,
-			quantity: 1,
-		})
+		// if (shop.collectorNumber + shop.classicNumber === 1) {
+		// 	// 7,95
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiPuYOOhasI'
+		// } else {
+		// 	// 13,75
+		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP7Fjz4NBD'
+		// }
+		// items.push({
+		// 	price: shippingPrice,
+		// 	quantity: 1,
+		// })
 		let paymentInfo = {
 			lineItems: items,
 			mode: 'payment',
 			successUrl: `${window.location.href}#success`,
 			cancelUrl: window.location.href,
-			shippingAddressCollection: {
-				allowedCountries: [
-					'AC',
-					'AD',
-					'AE',
-					'AF',
-					'AG',
-					'AI',
-					'AL',
-					'AM',
-					'AO',
-					'AQ',
-					'AR',
-					'AT',
-					'AU',
-					'AW',
-					'AX',
-					'AZ',
-					'BA',
-					'BB',
-					'BD',
-					'BE',
-					'BF',
-					'BG',
-					'BH',
-					'BI',
-					'BJ',
-					'BL',
-					'BM',
-					'BN',
-					'BO',
-					'BQ',
-					'BR',
-					'BS',
-					'BT',
-					'BV',
-					'BW',
-					'BY',
-					'BZ',
-					'CA',
-					'CD',
-					'CF',
-					'CG',
-					'CH',
-					'CI',
-					'CK',
-					'CL',
-					'CM',
-					'CN',
-					'CO',
-					'CR',
-					'CV',
-					'CW',
-					'CY',
-					'CZ',
-					'DE',
-					'DJ',
-					'DK',
-					'DM',
-					'DO',
-					'DZ',
-					'EC',
-					'EE',
-					'EG',
-					'EH',
-					'ER',
-					'ES',
-					'ET',
-					'FI',
-					'FJ',
-					'FK',
-					'FO',
-					'FR',
-					'GA',
-					'GB',
-					'GD',
-					'GE',
-					'GF',
-					'GG',
-					'GH',
-					'GI',
-					'GL',
-					'GM',
-					'GN',
-					'GP',
-					'GQ',
-					'GR',
-					'GS',
-					'GT',
-					'GU',
-					'GW',
-					'GY',
-					'HK',
-					'HN',
-					'HR',
-					'HT',
-					'HU',
-					'ID',
-					'IE',
-					'IL',
-					'IM',
-					'IN',
-					'IO',
-					'IQ',
-					'IS',
-					'IT',
-					'JE',
-					'JM',
-					'JO',
-					'JP',
-					'KE',
-					'KG',
-					'KH',
-					'KI',
-					'KM',
-					'KN',
-					'KR',
-					'KW',
-					'KY',
-					'KZ',
-					'LA',
-					'LB',
-					'LC',
-					'LI',
-					'LK',
-					'LR',
-					'LS',
-					'LT',
-					'LU',
-					'LV',
-					'LY',
-					'MA',
-					'MC',
-					'MD',
-					'ME',
-					'MF',
-					'MG',
-					'MK',
-					'ML',
-					'MM',
-					'MN',
-					'MO',
-					'MQ',
-					'MR',
-					'MS',
-					'MT',
-					'MU',
-					'MV',
-					'MW',
-					'MX',
-					'MY',
-					'MZ',
-					'NA',
-					'NC',
-					'NE',
-					'NG',
-					'NI',
-					'NL',
-					'NO',
-					'NP',
-					'NR',
-					'NU',
-					'NZ',
-					'OM',
-					'PA',
-					'PE',
-					'PF',
-					'PG',
-					'PH',
-					'PK',
-					'PL',
-					'PM',
-					'PN',
-					'PR',
-					'PS',
-					'PT',
-					'PY',
-					'QA',
-					'RE',
-					'RO',
-					'RS',
-					'RU',
-					'RW',
-					'SA',
-					'SB',
-					'SC',
-					'SE',
-					'SG',
-					'SH',
-					'SI',
-					'SJ',
-					'SK',
-					'SL',
-					'SM',
-					'SN',
-					'SO',
-					'SR',
-					'SS',
-					'ST',
-					'SV',
-					'SX',
-					'SZ',
-					'TA',
-					'TC',
-					'TD',
-					'TF',
-					'TG',
-					'TH',
-					'TJ',
-					'TK',
-					'TL',
-					'TM',
-					'TN',
-					'TO',
-					'TR',
-					'TT',
-					'TV',
-					'TW',
-					'TZ',
-					'UA',
-					'UG',
-					'US',
-					'UY',
-					'UZ',
-					'VA',
-					'VC',
-					'VE',
-					'VG',
-					'VN',
-					'VU',
-					'WF',
-					'WS',
-					'XK',
-					'YE',
-					'YT',
-					'ZA',
-					'ZM',
-					'ZW',
-					'ZZ',
-				],
-			},
+			// shippingAddressCollection: {
+			// 	allowedCountries: ['FR'],
+			// },
 		}
+		document.querySelector('#shippingCheckbox').checked ? (paymentInfo.shippingAddressCollection = { allowedCountries: ['FR'] }) : null
+
 		if (shop.classicNumber !== 0 || shop.collectorNumber != 0) {
 			stripe.redirectToCheckout(paymentInfo).then(function (result) {
 				alert('Il y a une erreur : ' + result.error.message)
@@ -578,11 +346,11 @@ let slider = {
 slider.setup()
 
 let shop = {
-	classicNumber: 0,
-	collectorNumber: 1,
+	classicNumber: 1,
+	collectorNumber: 0,
 	animationDistance: 25,
-	names: ['classic', 'collector'],
-	// names: ['collector'],
+	// names: ['classic', 'collector'],
+	names: ['classic'],
 	shippingPrice: 5,
 	totalPrice: 0,
 

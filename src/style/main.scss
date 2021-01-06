@@ -59,8 +59,8 @@ body {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -90%);
-		font-size: 15px;
+		transform: translate(-50%, -100%);
+		font-size: 12px;
 		line-height: 22px;
 		letter-spacing: 2px;
 		text-align: center;
@@ -237,6 +237,10 @@ body {
 			}
 		}
 	}
+}
+
+#shippingCheckbox {
+	transform: translateX(-30px);
 }
 
 .successOverlay {
