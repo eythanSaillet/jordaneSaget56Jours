@@ -4,7 +4,7 @@ import p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/lithographie1.jpg'
-import videoSource from './assets/lithographie.webm'
+// import videoSource from './lithographie.mp4'
 
 let stripe = Stripe('pk_test_51Gudg1Ie0KUcqb1Ji3LAC1ktF4EupGPw0wC43xm9NzQQB0yQCssnjuPsYsw3XklUqSw1yye2A5BukoJcgSMtT9Kj00llWnqmAo')
 
@@ -17,7 +17,7 @@ if (splitUrl[splitUrl.length - 1] === 'success') {
 }
 
 // Display video
-document.querySelector('#video').src = videoSource
+// document.querySelector('#video').src = videoSource
 
 // P5 Init
 let lines = []
