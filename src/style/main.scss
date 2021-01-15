@@ -30,6 +30,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
+	display: none;
 }
 
 .buttonContainer {
@@ -40,6 +41,7 @@ body {
 	left: 0;
 	overflow: hidden;
 	pointer-events: none;
+	display: none;
 	.button {
 		width: 120px;
 		height: 120px;
@@ -84,7 +86,7 @@ body {
 	overflow-x: hidden;
 	.title {
 		width: 100vw;
-		height: 27vh;
+		height: 30vh;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -98,9 +100,13 @@ body {
 	}
 	.book {
 		width: 100vw;
-		height: 73vh;
+		height: 70vh;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
+		align-items: flex-start;
+		#video {
+			width: 55%;
+		}
 		.slider {
 			width: 30%;
 			height: 100%;
@@ -110,6 +116,7 @@ body {
 			justify-content: start;
 			box-sizing: content-box;
 			margin-right: 5%;
+			display: none;
 			.imageContainer {
 				height: 80%;
 				width: 100%;
@@ -136,8 +143,11 @@ body {
 			}
 		}
 		.infos {
-			width: 55%;
+			width: 30%;
 			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
 			.description {
 				h2 {
 					font-family: 'DM Serif Display Regular';
@@ -145,6 +155,7 @@ body {
 					letter-spacing: 0.15em;
 					font-size: 1.7em;
 					margin: 0;
+					padding-top: 8vh;
 				}
 				p {
 					margin: 2vh 0;
@@ -152,8 +163,12 @@ body {
 					line-height: 1.5em;
 					opacity: 0.8;
 				}
+				.secondP {
+					display: none;
+				}
 				.subtext {
 					color: #8e8e8e;
+					display: none;
 				}
 			}
 			.prices {
@@ -165,6 +180,9 @@ body {
 				font-family: 'DM Serif Display Regular';
 				font-size: 1.5em;
 				letter-spacing: 0.15em;
+				.collector {
+					display: none;
+				}
 				> div {
 					position: relative;
 					display: flex;
@@ -198,15 +216,14 @@ body {
 				.price {
 					position: absolute;
 					top: 0;
-					left: 30%;
+					left: 50%;
 				}
 			}
 			.buyButtonContainer {
-				height: 20%;
+				height: 10%;
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
-				margin-top: 1.5vh;
 				.shippingChoice {
 					display: none;
 					justify-content: space-between;
@@ -286,9 +303,10 @@ body {
 			align-items: center;
 			flex-direction: column;
 			.infos {
+				padding-right: 2vw;
 				.prices {
-					margin-top: 4vh;
-					height: 11%;
+					margin-top: 2vh;
+					height: 7%;
 					.price {
 						left: 45%;
 					}

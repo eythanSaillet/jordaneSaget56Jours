@@ -4,6 +4,7 @@ import p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/lithographie1.jpg'
+import videoSource from './assets/lithographie.webm'
 
 let stripe = Stripe('pk_test_51Gudg1Ie0KUcqb1Ji3LAC1ktF4EupGPw0wC43xm9NzQQB0yQCssnjuPsYsw3XklUqSw1yye2A5BukoJcgSMtT9Kj00llWnqmAo')
 
@@ -14,6 +15,9 @@ const splitUrl = window.location.href.split('#')
 if (splitUrl[splitUrl.length - 1] === 'success') {
 	document.querySelector('.successOverlay').style.display = 'flex'
 }
+
+// Display video
+document.querySelector('#video').src = videoSource
 
 // P5 Init
 let lines = []
@@ -143,6 +147,7 @@ let pageTransition = {
 	setup() {
 		this.setupEvents()
 		this.setupTimelines()
+		this.goToShop()
 	},
 
 	setupEvents() {

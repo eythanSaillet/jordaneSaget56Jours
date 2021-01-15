@@ -30,7 +30,12 @@ module.exports = {
 		rules: [
 			{
 				test: /\.html$/,
-				use: ['html-loader'],
+				use: {
+					loader: 'html-loader',
+					options: {
+						attrs: [':src'],
+					},
+				},
 			},
 			{
 				test: /\.scss$/i,
@@ -42,7 +47,18 @@ module.exports = {
 				use: ['babel-loader'],
 			},
 			{
-				test: /\.(png|jpg|gif|svg|jpeg)$/,
+				test: /\.(webm|mp4)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+						},
+					},
+				],
+			},
+			{
+				test: /\.(png|jpg|gif|svg|jpeg|webm|mp4)$/,
 				use: [
 					{
 						loader: 'file-loader',
