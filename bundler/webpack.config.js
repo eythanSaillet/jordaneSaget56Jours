@@ -33,7 +33,21 @@ module.exports = {
 				use: {
 					loader: 'html-loader',
 					options: {
-						attrs: [':src'],
+						attributes: {
+							list: [
+								{
+									tag: 'img',
+									attribute: 'src',
+									type: 'src',
+								},
+								{
+									tag: 'video',
+									attribute: 'src',
+									type: 'src',
+								},
+							],
+						},
+						esModule: false,
 					},
 				},
 			},
@@ -47,22 +61,23 @@ module.exports = {
 				use: ['babel-loader'],
 			},
 			{
+				test: /\.(png|jpg|gif|svg|jpeg)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: { outputPath: 'images/', esModule: false },
+					},
+				],
+			},
+			{
 				test: /\.(webm|mp4)$/,
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
+							esModule: false,
 						},
-					},
-				],
-			},
-			{
-				test: /\.(png|jpg|gif|svg|jpeg|webm|mp4)$/,
-				use: [
-					{
-						loader: 'file-loader',
-						options: { outputPath: 'images/', esModule: false },
 					},
 				],
 			},
