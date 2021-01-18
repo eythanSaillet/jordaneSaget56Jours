@@ -106,6 +106,8 @@ body {
 		align-items: flex-start;
 		#video {
 			width: 55%;
+			opacity: 0;
+			transform: translateY(50px);
 			&:focus {
 				outline: none;
 			}

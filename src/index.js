@@ -4,7 +4,7 @@ import p5 from 'p5'
 import { gsap, Power2 } from 'gsap'
 
 import bookCover from './assets/images/lithographie1.jpg'
-// import videoSource from './lithographie.mp4'
+import videoPoster from './assets/images/lithoThumbnail.jpg'
 
 let stripe = Stripe('pk_test_51Gudg1Ie0KUcqb1Ji3LAC1ktF4EupGPw0wC43xm9NzQQB0yQCssnjuPsYsw3XklUqSw1yye2A5BukoJcgSMtT9Kj00llWnqmAo')
 
@@ -17,7 +17,7 @@ if (splitUrl[splitUrl.length - 1] === 'success') {
 }
 
 // Display video
-// document.querySelector('#video').src = videoSource
+document.querySelector('#video').poster = videoPoster
 
 // P5 Init
 let lines = []
@@ -192,6 +192,8 @@ let pageTransition = {
 		this.shopApparition.from('.shopOverlay .prices .collector', 0.45, { opacity: 0, x: '100px' }, '-=0.35')
 		this.shopApparition.from('.shopOverlay .buyButtonContainer .shippingChoice', 0.45, { opacity: 0, y: '80px' }, '-=0.35')
 		this.shopApparition.from('.shopOverlay .buyButtonContainer .button', 0.45, { opacity: 0, y: '80px' }, '-=0.35')
+		// Animate video
+		this.shopApparition.to(document.querySelector('#video'), { duration: 0.7, opacity: 1, y: 0 }, '-=1.2')
 	},
 
 	// Display button after a delay
