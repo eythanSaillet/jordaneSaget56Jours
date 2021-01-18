@@ -6,7 +6,7 @@ import { gsap, Power2 } from 'gsap'
 import bookCover from './assets/images/lithographie1.jpg'
 import videoPoster from './assets/images/lithoThumbnail.jpg'
 
-let stripe = Stripe('pk_test_51Gudg1Ie0KUcqb1Ji3LAC1ktF4EupGPw0wC43xm9NzQQB0yQCssnjuPsYsw3XklUqSw1yye2A5BukoJcgSMtT9Kj00llWnqmAo')
+let stripe = Stripe('pk_live_vUQvEEjQ3CLSAm1wzqJE23ev00dgNmGdR8')
 
 const P5 = new p5(s)
 
@@ -243,7 +243,7 @@ let pageTransition = {
 		if (shop.classicNumber >= 0) {
 			shop.classicNumber === 0 ? (shop.classicNumber = 1) : null
 			items.push({
-				price: 'price_1I6axwIe0KUcqb1JI99kQDGR',
+				price: 'price_1I6BFzIe0KUcqb1JdBbVmWM7',
 				quantity: shop.classicNumber,
 			})
 		}
@@ -255,9 +255,9 @@ let pageTransition = {
 		// }
 		// Define shipping price
 		// let shippingPrice
-		if (document.querySelector('#shippingCheckbox').checked) {
-			items.push({ price: 'price_1I6ayBIe0KUcqb1JYO0pVZRC', quantity: 1 })
-		}
+		items.push({ price: 'price_1I6axQIe0KUcqb1JWTiRBC12', quantity: 1 })
+		// if (document.querySelector('#shippingCheckbox').checked) {
+		// }
 		// if (shop.collectorNumber + shop.classicNumber === 1) {
 		// 	// 4,95
 		// 	shippingPrice = 'price_1GzSVBLdNkflxGiP0b1G9Yll'
