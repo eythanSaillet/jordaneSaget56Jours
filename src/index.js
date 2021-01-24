@@ -6,7 +6,7 @@ import { gsap, Power2 } from 'gsap'
 import bookCover from './assets/images/lithographie1.jpg'
 import videoPoster from './assets/images/lithoThumbnail.jpg'
 
-let stripe = Stripe('pk_live_vUQvEEjQ3CLSAm1wzqJE23ev00dgNmGdR8')
+// let stripe = Stripe('pk_live_vUQvEEjQ3CLSAm1wzqJE23ev00dgNmGdR8')
 
 const P5 = new p5(s)
 

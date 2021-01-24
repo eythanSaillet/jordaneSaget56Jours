@@ -255,6 +255,7 @@ body {
 					padding: 10px 25px;
 					border: solid white 1px;
 					cursor: pointer;
+					pointer-events: none;
 				}
 			}
 		}
@@ -263,6 +264,9 @@ body {
 
 #shippingCheckbox {
 	transform: translateX(-30px);
+}
+.soldOut {
+	color: grey;
 }
 
 .successOverlay {
